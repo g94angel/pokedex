@@ -1,6 +1,17 @@
 import React, { Component } from 'react'
 
 export default class PokeCard extends Component {
+
+  state = {
+    seeDetails: false
+  }
+
+  toggleDetails = () => {
+    this.setState(prevState => ({
+      seeDetails: !prevState.seeDetails
+    }))
+  }
+
   render() {
     const {data, image} = this.props.state;
     let types = this.props.state.data.types // types is an arr of obj
@@ -28,14 +39,18 @@ export default class PokeCard extends Component {
           alt={data.name}
         />
         </div>
+        <button 
+          className='details-btn' onClick={this.toggleDetails}>{this.state.seeDetails ? 'Hide' : 'See'} details
+        </button>
+        {this.state.seeDetails && 
         <div className='card-details'>
-          <h3 className='card-name'>{data.name[0].toUpperCase() + data.name.slice(1)}</h3>
+          <h4 className='card-name'>{data.name[0].toUpperCase() + data.name.slice(1)}</h4>
           <div className='card-info'>
             {<p>{`#${data.id}`}</p>}
             {<p>{typeString}</p>}
             {<p>{`${(data.weight)/10} kg`}</p>}
           </div>
-        </div>
+        </div>}
       </div>
     )
   }

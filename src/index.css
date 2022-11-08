@@ -1,29 +1,38 @@
 body {
   margin: 0;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #1F2937;
 }
 
 .main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* width: 500px; */
   margin: 0 auto;
   text-align: center;
 }
 
-img {
-  width: 400px;
-  height: 400px;
+.logo {
+  margin-top: 20px;
+  width: 500px;
+}
+
+.pokemon-image {
+  width: 250px;
+  height: 250px;
+  padding: 10px 0 ;
 }
 
 input {
   width: 150px;
   padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid black;
+  margin: 20px 0;
+  border: 1px solid whitesmoke;
   outline: none;
   border-radius: 5px;
+  background-color: #1F2937;
+  color: white;
+  text-align: center;
 }
 
 p {
@@ -31,37 +40,47 @@ p {
 }
 
 .card-container {
-  padding: 20px;
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: column;
   justify-content: space-evenly;
   
 }
 
-.card-image {
-  /* padding: 20px; */
-  /* border: 1px solid black; */
-  /* border-radius: 8px; */
-  /* width: 200px; */
-
-}
-
 .card-details {
-  margin-top: 100px;
-  /* padding: 20px; */
+  margin: 20px 0;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
-  /* border: 1px solid black; */
-  /* border-radius: 8px; */
-  width: 200px;
+  color: white
 } 
-p{
+
+p {
   padding: 0;
   margin-bottom: 10px;
+  color: white;
 }
 
 .card-name {
   margin: 0;
+}
+
+button {
+  background: #1F2937;
+  border: 1px solid white;
+  border-radius: 8px;
+  padding: 5px 10px;
+  color: white;
+  margin: 20px 0;
+}
+
+.warning {
+  font-size: 1rem;
+}
+
+.card-info {
+  font-size: 15px;
+}
+
+.details-btn {
+  /* width: 100px; */
 }

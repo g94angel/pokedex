@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PokeCard from './PokeCard';
+import Search from './Search';
 
 class App extends Component {
   state = {
@@ -41,14 +42,14 @@ class App extends Component {
   render() {
     return (
       <div className="main-container">
-        <h1>Pokemon!</h1>
-        <input
-          onChange={this.handleChange}
-          type="text"
-          value={this.state.input}
+        <Search
+          state={this.state}
+          handleChange={this.handleChange}
+          findPokemon={this.findPokemon}
         />
-        <button onClick={this.findPokemon}>Search</button>
-        {this.state.error && <p>This Pokemon does not exist</p>}
+        {this.state.error && (
+          <p className="warning">{`${this.state.input} does not exist`}</p>
+        )}
         {this.state.loaded && <PokeCard state={this.state} />}
       </div>
     );
