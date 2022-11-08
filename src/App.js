@@ -4,31 +4,36 @@ import PokeCard from './PokeCard';
 
 class App extends Component {
   state = {
-    name: '',
+    input: '',
     image: '',
     data: null,
     error: false,
+    loaded: false,
   };
 
   handleChange = (e) => {
     const { value } = e.target;
-    this.setState({ name: value });
+    this.setState({ input: value });
   };
 
   findPokemon = () => {
     axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${this.state.name.toLowerCase()}`)
+      .get(
+        `https://pokeapi.co/api/v2/pokemon/${this.state.input.toLowerCase()}`
+      )
       .then((res) => {
         this.setState({
           data: res.data,
+          // image: res.data.sprites.other['official-artwork'].front_default,
           image: res.data.sprites.other.dream_world.front_default,
-          name: '',
+          input: '',
+          loaded: true,
         });
       })
       .catch((err) => {
         this.setState({ error: true });
         setTimeout(() => {
-          this.setState({ error: false, name: '' });
+          this.setState({ error: false, input: '' });
         }, 2000);
       });
   };
@@ -40,11 +45,11 @@ class App extends Component {
         <input
           onChange={this.handleChange}
           type="text"
-          value={this.state.name}
+          value={this.state.input}
         />
         <button onClick={this.findPokemon}>Search</button>
         {this.state.error && <p>This Pokemon does not exist</p>}
-        <PokeCard state={this.state} />
+        {this.state.loaded && <PokeCard state={this.state} />}
       </div>
     );
   }
