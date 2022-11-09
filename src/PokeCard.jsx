@@ -20,7 +20,6 @@ export default class PokeCard extends Component {
     for (const obj of types) {
       allTypes.push(obj.type.name)
     }
-    console.log('alltypes', allTypes)
     let typeString = ''
     for (let i=0; i<allTypes.length; i++) {
       if (i === allTypes.length -1) {
@@ -29,8 +28,6 @@ export default class PokeCard extends Component {
         typeString += allTypes[i][0].toUpperCase() + allTypes[i].slice(1) + ' | ';
       } 
     }
-
-
 
     return (
       <div className='main-container-two'>

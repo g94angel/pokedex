@@ -12,6 +12,7 @@ class App extends Component {
     speciesData: null,
     error: false,
     loaded: false,
+    randomNumber: Math.floor(Math.random() * 650),
   };
 
   handleChange = (e) => {
@@ -52,6 +53,11 @@ class App extends Component {
         }, 2000);
       });
   };
+
+  componentDidMount() {
+    console.log('mounted');
+    this.findPokemon(this.state.randomNumber);
+  }
 
   render() {
     return (
