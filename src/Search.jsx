@@ -6,7 +6,7 @@ export default class Search extends Component {
       <div className='search-container'>
         <input
           onChange={this.props.handleChange}
-          placeholder='Type here'
+          placeholder='Search'
           type="text"
           value={this.props.state.input}
         />
