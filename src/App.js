@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PokeCard from './PokeCard';
 import Search from './Search';
+import Title from './Title';
 
 class App extends Component {
   state = {
     input: '',
     image: '',
     data: null,
+    speciesData: null,
     error: false,
     loaded: false,
   };
@@ -17,11 +19,9 @@ class App extends Component {
     this.setState({ input: value });
   };
 
-  findPokemon = () => {
+  findPokemon = (data) => {
     axios
-      .get(
-        `https://pokeapi.co/api/v2/pokemon/${this.state.input.toLowerCase()}`
-      )
+      .get(`https://pokeapi.co/api/v2/pokemon/${data}`)
       .then((res) => {
         this.setState({
           data: res.data,
@@ -37,11 +37,25 @@ class App extends Component {
           this.setState({ error: false, input: '' });
         }, 2000);
       });
+    axios
+      .get(`https://pokeapi.co/api/v2/pokemon-species/${data}`)
+      .then((res) => {
+        this.setState({
+          speciesData: res.data,
+        });
+      })
+      .catch((err) => {
+        this.setState({ error: true });
+        setTimeout(() => {
+          this.setState({ error: false, input: '' });
+        }, 2000);
+      });
   };
 
   render() {
     return (
       <div className="main-container">
+        <Title />
         <Search
           state={this.state}
           handleChange={this.handleChange}
@@ -50,7 +64,9 @@ class App extends Component {
         {this.state.error && (
           <p className="warning">{`${this.state.input} does not exist`}</p>
         )}
-        {this.state.loaded && <PokeCard state={this.state} />}
+        {this.state.loaded && (
+          <PokeCard state={this.state} findPokemon={this.findPokemon} />
+        )}
       </div>
     );
   }

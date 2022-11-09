@@ -39,18 +39,18 @@ p {
   color: black;
 }
 
-.card-container {
+.main-container-two {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  
+  align-items: center;
+  width: 500px;
 }
 
 .card-details {
   margin: 20px 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
   color: white
 } 
 
@@ -68,7 +68,7 @@ button {
   background: #1F2937;
   border: 1px solid white;
   border-radius: 8px;
-  padding: 5px 10px;
+  padding: 10px 15px;
   color: white;
   margin: 20px 0;
 }
@@ -79,8 +79,37 @@ button {
 
 .card-info {
   font-size: 15px;
+  /* width: 400px; */
 }
 
+
 .details-btn {
-  /* width: 100px; */
+  width: 200px;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+}
+
+.navigate {
+  background: #2e3846;
+  padding: 5px 15px;
+  margin: 10px 30px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.search-btn {
+  margin-left: 20px;
+  border-radius: 50%;
+}
+
+.pokeball-btn {
+  width: 30px;
+  padding: 0;
+  margin: 0;
 }

@@ -12,8 +12,9 @@ export default class PokeCard extends Component {
     }))
   }
 
+
   render() {
-    const {data, image} = this.props.state;
+    const {data, image, speciesData} = this.props.state;
     let types = this.props.state.data.types // types is an arr of obj
     let allTypes = []
     for (const obj of types) {
@@ -30,25 +31,33 @@ export default class PokeCard extends Component {
     }
 
 
+
     return (
-      <div className='card-container'>
-        <div className='card-image'>
-          <img
-          className="pokemon-image"
-          src={image}
-          alt={data.name}
-        />
+      <div className='main-container-two'>
+        <div className='carousel'>
+          <button onClick={() => this.props.findPokemon(data.id - 1)} className='navigate'><i class="fa fa-thin fa-caret-left"></i></button>
+          <div className='card-image'>
+            <img
+            className="pokemon-image"
+            src={image}
+            alt={data.name}
+          />
+          </div>
+          <button onClick={() => this.props.findPokemon(data.id + 1)} className='navigate'><i class="fa fa-thin fa-caret-right"></i></button>
         </div>
         <button 
           className='details-btn' onClick={this.toggleDetails}>{this.state.seeDetails ? 'Hide' : 'See'} details
         </button>
         {this.state.seeDetails && 
         <div className='card-details'>
-          <h4 className='card-name'>{data.name[0].toUpperCase() + data.name.slice(1)}</h4>
+          <h4 className='card-name'>
+            {data.name[0].toUpperCase() + data.name.slice(1)}
+          </h4>
           <div className='card-info'>
             {<p>{`#${data.id}`}</p>}
             {<p>{typeString}</p>}
-            {<p>{`${(data.weight)/10} kg`}</p>}
+            {<p>{speciesData.flavor_text_entries[0].flavor_text}</p>}
+            {/* {<p>{`${(data.weight)/10} kg`}</p>} */}
           </div>
         </div>}
       </div>
