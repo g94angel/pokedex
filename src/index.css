@@ -108,6 +108,7 @@ button {
   justify-content: space-between;
   align-items: center;
   width: 230px;
+  margin-top: 20px;
 }
 
 .pokeball-btn {
