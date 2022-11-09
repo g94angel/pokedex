@@ -56,7 +56,7 @@ export default class PokeCard extends Component {
           <div className='card-info'>
             {<p>{`#${data.id}`}</p>}
             {<p>{typeString}</p>}
-            {<p>{speciesData.flavor_text_entries[9].flavor_text}</p>}
+            {<p>{speciesData.flavor_text_entries[4].flavor_text}</p>}
             {/* {<p>{`${(data.weight)/10} kg`}</p>} */}
           </div>
         </div>}
