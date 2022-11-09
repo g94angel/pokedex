@@ -122,3 +122,7 @@ button {
   height: 55px;
   cursor: pointer;
 }
+
+i {
+  color: red;
+}
