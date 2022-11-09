@@ -30,7 +30,6 @@ class App extends Component {
           // image: res.data.sprites.other['official-artwork'].front_default,
           image: res.data.sprites.other.dream_world.front_default,
           input: '',
-          loaded: true,
         });
       })
       .catch((err) => {
@@ -44,6 +43,7 @@ class App extends Component {
       .then((res) => {
         this.setState({
           speciesData: res.data,
+          loaded: true,
         });
       })
       .catch((err) => {

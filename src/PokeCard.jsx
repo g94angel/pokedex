@@ -28,6 +28,9 @@ export default class PokeCard extends Component {
         typeString += allTypes[i][0].toUpperCase() + allTypes[i].slice(1) + ' | ';
       } 
     }
+ 
+
+    let bio = speciesData.flavor_text_entries[4].flavor_text.replace('POKéMON', 'Pokémon').replace(data.name.toUpperCase(), data.name[0].toUpperCase() + data.name.slice(1));
 
     return (
       <div className='main-container-two'>
@@ -53,8 +56,8 @@ export default class PokeCard extends Component {
           <div className='card-info'>
             {<p>{`#${data.id}`}</p>}
             {<p>{typeString}</p>}
-            {<p>{speciesData.flavor_text_entries[4].flavor_text}</p>}
-            {/* {<p>{`${(data.weight)/10} kg`}</p>} */}
+            {speciesData.evolves_from_species && <p>{`Evolves from ${speciesData.evolves_from_species.name[0].toUpperCase() + speciesData.evolves_from_species.name.slice(1)}`}</p>}
+            {<p>{bio}</p>}
           </div>
         </div>}
       </div>

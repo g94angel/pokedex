@@ -14,12 +14,13 @@ body {
 .logo {
   margin-top: 20px;
   width: 500px;
+  
 }
 
 .pokemon-image {
   width: 350px;
   height: 350px;
-  padding: 20px;
+  padding: 15px;
 }
 
 input {
@@ -74,6 +75,7 @@ button {
   border-radius: 8px;
   padding: 10px 15px;
   color: white;
+  cursor: pointer;
 }
 
 .warning {
@@ -99,7 +101,7 @@ button {
 .navigate {
   background: #2e3846;
   padding: 5px 15px;
-  margin: 0 40px;
+  margin: 0 10px;
 }
 
 .search-container {
@@ -117,4 +119,5 @@ button {
 .pokeball-btn {
   width: 55px;
   height: 55px;
+  cursor: pointer;
 }
