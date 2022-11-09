@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  margin: 0 auto;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: #1F2937;
 }
@@ -8,7 +8,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
   text-align: center;
 }
 
@@ -18,8 +17,8 @@ body {
 }
 
 .pokemon-image {
-  width: 250px;
-  height: 250px;
+  width: 300px;
+  height: 300px;
   padding: 10px 0 ;
 }
 
@@ -27,13 +26,14 @@ input {
   width: 150px;
   padding: 10px;
   margin: 20px 0;
-  border: 1px solid whitesmoke;
+  border: 1px solid transparent;
   outline: none;
   border-radius: 5px;
   background-color: #1F2937;
   color: white;
   text-align: center;
 }
+
 
 p {
   color: black;
@@ -66,7 +66,7 @@ p {
 
 button {
   background: #1F2937;
-  border: 1px solid white;
+  border: 3px solid #2e3846;
   border-radius: 8px;
   padding: 10px 15px;
   color: white;
@@ -99,17 +99,17 @@ button {
 }
 
 .search-container {
+  background: #1F2937;
+  border: 3px solid #2e3846;
+  height: 50px;
+  border-radius: 5px;
   display: flex;
-  justify-content: space-around;
-}
-
-.search-btn {
-  margin-left: 20px;
-  border-radius: 50%;
+  justify-content: space-between;
+  align-items: center;
+  width: 230px;
 }
 
 .pokeball-btn {
-  width: 30px;
-  padding: 0;
-  margin: 0;
+  width: 55px;
+  height: 55px;
 }

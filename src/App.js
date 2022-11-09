@@ -20,6 +20,7 @@ class App extends Component {
   };
 
   findPokemon = (data) => {
+    if (!data || data === '0') return;
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/${data}`)
       .then((res) => {
@@ -62,7 +63,7 @@ class App extends Component {
           findPokemon={this.findPokemon}
         />
         {this.state.error && (
-          <p className="warning">{`${this.state.input} does not exist`}</p>
+          <p className="warning">That Pokemon does not exist</p>
         )}
         {this.state.loaded && (
           <PokeCard state={this.state} findPokemon={this.findPokemon} />

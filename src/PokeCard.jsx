@@ -35,7 +35,7 @@ export default class PokeCard extends Component {
     return (
       <div className='main-container-two'>
         <div className='carousel'>
-          <button onClick={() => this.props.findPokemon(data.id - 1)} className='navigate'><i class="fa fa-thin fa-caret-left"></i></button>
+          <button onClick={() => this.props.findPokemon(data.id - 1)} className='navigate'><i className="fa fa-thin fa-caret-left"></i></button>
           <div className='card-image'>
             <img
             className="pokemon-image"
@@ -43,7 +43,7 @@ export default class PokeCard extends Component {
             alt={data.name}
           />
           </div>
-          <button onClick={() => this.props.findPokemon(data.id + 1)} className='navigate'><i class="fa fa-thin fa-caret-right"></i></button>
+          <button onClick={() => this.props.findPokemon(data.id + 1)} className='navigate'><i className="fa fa-thin fa-caret-right"></i></button>
         </div>
         <button 
           className='details-btn' onClick={this.toggleDetails}>{this.state.seeDetails ? 'Hide' : 'See'} details
@@ -56,7 +56,7 @@ export default class PokeCard extends Component {
           <div className='card-info'>
             {<p>{`#${data.id}`}</p>}
             {<p>{typeString}</p>}
-            {<p>{speciesData.flavor_text_entries[0].flavor_text}</p>}
+            {<p>{speciesData.flavor_text_entries[9].flavor_text}</p>}
             {/* {<p>{`${(data.weight)/10} kg`}</p>} */}
           </div>
         </div>}
