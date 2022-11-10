@@ -27,8 +27,8 @@ class App extends Component {
       .then((res) => {
         this.setState({
           data: res.data,
-          // image: res.data.sprites.other['official-artwork'].front_default,
-          image: res.data.sprites.other.dream_world.front_default,
+          image: res.data.sprites.other['official-artwork'].front_default,
+          // image: res.data.sprites.other.dream_world.front_default,
           input: '',
         });
       })

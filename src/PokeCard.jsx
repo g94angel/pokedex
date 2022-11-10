@@ -29,8 +29,54 @@ export default class PokeCard extends Component {
       } 
     }
     let reg = new RegExp(data.name, 'gi')
-    let bio = speciesData.flavor_text_entries[1].flavor_text.replace(/POKéMON/gi, 'Pokémon').replace(reg, data.name[0].toUpperCase() + data.name.slice(1));
-    let genus = speciesData.genera[7].genus;
+    
+    // let genus = speciesData.genera[7].genus;
+
+    let generation = '';
+    let region = ''
+    let arrNum;
+    if (data.id < 152) {
+      generation = 'I';
+      region = 'Kanto';
+      arrNum = 0;
+    } else if (data.id < 252) {
+      generation = 'II'
+      region = 'Johto';
+      arrNum = 0;
+    } else if (data.id < 387) {
+      generation = 'III'
+      region = 'Hoenn';
+      arrNum = 0;
+    } else if (data.id < 494) {
+      generation = 'IV'
+      region = 'Sinnoh';
+      arrNum = 1;
+    } else if (data.id < 650) {
+      generation = 'V'
+      region = 'Unova';
+      arrNum = 1;
+    } else if (data.id < 722) {
+      generation = 'VI'
+      region = 'Kalos';
+      arrNum = 6;
+    } else if (data.id < 810) {
+      generation = 'VII'
+      region = 'Alola';
+      arrNum = 7;
+    } else if (data.id < 899) {
+      generation = 'VIII'
+      region = 'Galar';
+      arrNum = 7;
+    } else if (data.id < 905) {
+      generation = 'VIII'
+      region = 'Galar';
+      arrNum = 0;
+    }
+
+    let bio;
+    if (speciesData.flavor_text_entries) {
+      bio = speciesData.flavor_text_entries[arrNum].flavor_text.replace(/POKéMON/gi, 'Pokémon').replace(reg, data.name[0].toUpperCase() + data.name.slice(1))
+    };
 
     return (
       <div className='main-container-two'>
@@ -55,6 +101,7 @@ export default class PokeCard extends Component {
           </h4>
           <div className='card-info'>
             <p>{'#' + data.id}</p>
+            <p>{`Generation ${generation} | ${region} region`}</p>
             <p>{typeString}</p>
             {speciesData.evolves_from_species && <p>{`Evolves from ${speciesData.evolves_from_species.name[0].toUpperCase() + speciesData.evolves_from_species.name.slice(1)}`}</p>}
             {<p>{bio}</p>}
