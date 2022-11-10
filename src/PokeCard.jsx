@@ -1,24 +1,7 @@
 import React, { Component } from 'react'
 
 export default class PokeCard extends Component {
-
-  // state = {
-  //   seeDetails: false
-  // }
-
-  // toggleDetails = () => {
-  //   this.setState(prevState => ({
-  //     seeDetails: !prevState.seeDetails
-  //   }))
-  // }
-
-  componentWillUnmount() {
-    console.log('about to unmount')
-  }
-
-
   render() {
-    console.log('rendered new pokemon')
     const {data, image, speciesData} = this.props.state;
     let types = data.types // types is an arr of obj
     let allTypes = []
