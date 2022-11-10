@@ -20,51 +20,63 @@ export default class PokeCard extends Component {
 
     let generation = '';
     let region = ''
-    let arrNum;
+    let descNum;
+    let genusNum;
     if (data.id < 152) {
       generation = 'I';
       region = 'Kanto';
-      arrNum = 0;
+      descNum = 0;
+      genusNum = 7;
     } else if (data.id < 252) {
       generation = 'II'
       region = 'Johto';
-      arrNum = 0;
+      descNum = 0;
+      genusNum = 7;
     } else if (data.id < 387) {
       generation = 'III'
       region = 'Hoenn';
-      arrNum = 0;
+      descNum = 0;
+      genusNum = 7;
     } else if (data.id < 494) {
       generation = 'IV'
       region = 'Sinnoh';
-      arrNum = 1;
+      descNum = 1;
+      genusNum = 7;
     } else if (data.id < 650) {
       generation = 'V'
       region = 'Unova';
-      arrNum = 1;
+      descNum = 1;
+      genusNum = 7;
     } else if (data.id < 722) {
       generation = 'VI'
       region = 'Kalos';
-      arrNum = 6;
+      descNum = 6;
+      genusNum = 7;
     } else if (data.id < 810) {
       generation = 'VII'
       region = 'Alola';
-      arrNum = 7;
+      descNum = 7;
+      genusNum = 7;
     } else if (data.id <= 898) {
       generation = 'VIII'
       region = 'Galar';
-      arrNum = 7;
+      descNum = 7;
+      genusNum = 7;
     } else if (data.id >= 899) {
       generation = 'VIII'
       region = 'Galar';
-      arrNum = 0;
+      descNum = 0;
+      genusNum = 4;
     }
 
-    let bio;
-    if (speciesData.flavor_text_entries) {
-      bio = speciesData.flavor_text_entries[arrNum].flavor_text.replace(/POKéMON/gi, 'Pokémon').replace(reg, data.name[0].toUpperCase() + data.name.slice(1))
-    };
-    let genus = speciesData.genera[7].genus;
-
+    let bio = speciesData.flavor_text_entries[descNum].flavor_text.replace(/POKéMON/gi, 'Pokémon').replace(reg, data.name[0].toUpperCase() + data.name.slice(1))
+    // console.log('flavor_text', speciesData.flavor_text_entries[descNum].flavor_text)
+    // if (speciesData.flavor_text_entries) {
+    //   bio = speciesData.flavor_text_entries[descNum].flavor_text.replace(/POKéMON/gi, 'Pokémon').replace(reg, data.name[0].toUpperCase() + data.name.slice(1))
+    // };
+  
+    let genus = speciesData.genera[genusNum].genus;
+    // console.log(speciesData.genera[genusNum].genus)
     return (
       <div className='main-container-two'>
         <div className='carousel'>
@@ -88,7 +100,7 @@ export default class PokeCard extends Component {
             {data.name[0].toUpperCase() + data.name.slice(1)}
           </h4>
           <div className='card-info'>
-            <p>{`#${data.id} - The ${genus}`}</p>
+            {genus && <p>{`#${data.id} - The ${genus}`}</p>}
             <p>{`Generation ${generation} | ${region} region`}</p>
             <p>{typeString}</p>
             {speciesData.evolves_from_species && <p>{`Evolves from ${speciesData.evolves_from_species.name[0].toUpperCase() + speciesData.evolves_from_species.name.slice(1)}`}</p>}
