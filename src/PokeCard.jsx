@@ -2,21 +2,25 @@ import React, { Component } from 'react'
 
 export default class PokeCard extends Component {
 
-  state = {
-    seeDetails: false
-  }
+  // state = {
+  //   seeDetails: false
+  // }
 
-  toggleDetails = () => {
-    this.setState(prevState => ({
-      seeDetails: !prevState.seeDetails
-    }))
+  // toggleDetails = () => {
+  //   this.setState(prevState => ({
+  //     seeDetails: !prevState.seeDetails
+  //   }))
+  // }
+
+  componentWillUnmount() {
+    console.log('about to unmount')
   }
 
 
   render() {
-    
+    console.log('rendered new pokemon')
     const {data, image, speciesData} = this.props.state;
-    let types = this.props.state.data.types // types is an arr of obj
+    let types = data.types // types is an arr of obj
     let allTypes = []
     for (const obj of types) {
       allTypes.push(obj.type.name)
@@ -30,8 +34,6 @@ export default class PokeCard extends Component {
       } 
     }
     let reg = new RegExp(data.name, 'gi')
-    
-    // let genus = speciesData.genera[7].genus;
 
     let generation = '';
     let region = ''
@@ -64,11 +66,11 @@ export default class PokeCard extends Component {
       generation = 'VII'
       region = 'Alola';
       arrNum = 7;
-    } else if (data.id < 899) {
+    } else if (data.id <= 898) {
       generation = 'VIII'
       region = 'Galar';
       arrNum = 7;
-    } else if (data.id < 906) {
+    } else if (data.id >= 899) {
       generation = 'VIII'
       region = 'Galar';
       arrNum = 0;
@@ -78,6 +80,7 @@ export default class PokeCard extends Component {
     if (speciesData.flavor_text_entries) {
       bio = speciesData.flavor_text_entries[arrNum].flavor_text.replace(/POKéMON/gi, 'Pokémon').replace(reg, data.name[0].toUpperCase() + data.name.slice(1))
     };
+    let genus = speciesData.genera[7].genus;
 
     return (
       <div className='main-container-two'>
@@ -102,7 +105,7 @@ export default class PokeCard extends Component {
             {data.name[0].toUpperCase() + data.name.slice(1)}
           </h4>
           <div className='card-info'>
-            <p>{'#' + data.id}</p>
+            <p>{'#' + data.id + ' - ' + "The " + genus}</p>
             <p>{`Generation ${generation} | ${region} region`}</p>
             <p>{typeString}</p>
             {speciesData.evolves_from_species && <p>{`Evolves from ${speciesData.evolves_from_species.name[0].toUpperCase() + speciesData.evolves_from_species.name.slice(1)}`}</p>}

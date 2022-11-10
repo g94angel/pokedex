@@ -11,9 +11,13 @@ class App extends Component {
     data: null,
     speciesData: null,
     error: false,
-    loaded: false,
     randomNumber: Math.floor(Math.random() * 650),
   };
+
+  componentDidMount() {
+    console.log('mounted');
+    this.findPokemon(this.state.randomNumber);
+  }
 
   handleChange = (e) => {
     const { value } = e.target;
@@ -21,7 +25,6 @@ class App extends Component {
   };
 
   findPokemon = (searchData) => {
-    console.log(searchData);
     if (searchData < 1 || searchData > 905) {
       this.setState({ error: true });
       setTimeout(() => {
@@ -50,7 +53,6 @@ class App extends Component {
       .then((res) => {
         this.setState({
           speciesData: res.data,
-          loaded: true,
         });
       })
       .catch((err) => {
@@ -60,11 +62,6 @@ class App extends Component {
         }, 2000);
       });
   };
-
-  componentDidMount() {
-    console.log('mounted');
-    this.findPokemon(this.state.randomNumber);
-  }
 
   render() {
     return (
@@ -76,9 +73,9 @@ class App extends Component {
           findPokemon={this.findPokemon}
         />
         {this.state.error && (
-          <p className="warning">That Pokemon does not exist</p>
+          <p className="warning">That Pokemon does not exist.</p>
         )}
-        {this.state.loaded && (
+        {this.state.speciesData && (
           <PokeCard state={this.state} findPokemon={this.findPokemon} />
         )}
       </div>
