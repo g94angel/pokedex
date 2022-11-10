@@ -20,10 +20,17 @@ class App extends Component {
     this.setState({ input: value });
   };
 
-  findPokemon = (data) => {
-    if (!data || data === '0') return;
+  findPokemon = (searchData) => {
+    console.log(searchData);
+    if (searchData < 1 || searchData > 905) {
+      this.setState({ error: true });
+      setTimeout(() => {
+        this.setState({ error: false, input: '' });
+      }, 2000);
+      return;
+    } else if (!searchData) return;
     axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${data}`)
+      .get(`https://pokeapi.co/api/v2/pokemon/${searchData}`)
       .then((res) => {
         this.setState({
           data: res.data,
@@ -39,7 +46,7 @@ class App extends Component {
         }, 2000);
       });
     axios
-      .get(`https://pokeapi.co/api/v2/pokemon-species/${data}`)
+      .get(`https://pokeapi.co/api/v2/pokemon-species/${searchData}`)
       .then((res) => {
         this.setState({
           speciesData: res.data,

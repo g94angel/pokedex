@@ -14,6 +14,7 @@ export default class PokeCard extends Component {
 
 
   render() {
+    
     const {data, image, speciesData} = this.props.state;
     let types = this.props.state.data.types // types is an arr of obj
     let allTypes = []
@@ -67,7 +68,7 @@ export default class PokeCard extends Component {
       generation = 'VIII'
       region = 'Galar';
       arrNum = 7;
-    } else if (data.id < 905) {
+    } else if (data.id < 906) {
       generation = 'VIII'
       region = 'Galar';
       arrNum = 0;
@@ -81,7 +82,8 @@ export default class PokeCard extends Component {
     return (
       <div className='main-container-two'>
         <div className='carousel'>
-          <button onClick={() => this.props.findPokemon(data.id - 1)} className='navigate'><i className="fa fa-thin fa-caret-left"></i></button>
+          {/* disable button if id === 0 */}
+          <button disabled={data.id - 1 === 0 ? true : false} onClick={() => this.props.findPokemon(data.id - 1)} className='navigate'><i className="fa fa-thin fa-caret-left"></i></button>
           <div className='card-image'>
             <img
             className="pokemon-image"
@@ -89,7 +91,7 @@ export default class PokeCard extends Component {
             alt={data.name}
           />
           </div>
-          <button onClick={() => this.props.findPokemon(data.id + 1)} className='navigate'><i className="fa fa-thin fa-caret-right"></i></button>
+          <button disabled={data.id + 1 === 906 ? true : false} onClick={() => this.props.findPokemon(data.id + 1)} className='navigate'><i className="fa fa-thin fa-caret-right"></i></button>
         </div>
         {/* <button 
           className='details-btn' onClick={this.toggleDetails}>{this.state.seeDetails ? 'Hide' : 'See'} details
