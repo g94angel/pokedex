@@ -12,7 +12,7 @@ class App extends Component {
     speciesData: null,
     error: false,
     randomNumber: Math.floor(Math.random() * 650),
-    cache: {},
+    // cache: {},
   };
 
   componentDidMount() {
@@ -25,16 +25,18 @@ class App extends Component {
   };
 
   findPokemon = (searchData) => {
-    if (this.state.cache[searchData]) {
-      this.setState({
-        data: this.state.cache[searchData],
-        image:
-          this.state.cache[searchData].sprites.other['official-artwork']
-            .front_default,
-        input: '',
-      });
-      return;
-    }
+    // if (this.state.cache[searchData]) {
+    //   console.log('found in cache');
+    //   this.setState({
+    //     data: this.state.cache[searchData],
+    //     image:
+    //       this.state.cache[searchData].sprites.other['official-artwork']
+    //         .front_default,
+    //     input: '',
+    //   });
+    //   return;
+    // }
+    // console.log('not found in cache, going to search')
     if (searchData < 1 || searchData > 905) {
       this.setState({ error: true });
       setTimeout(() => {
@@ -50,10 +52,10 @@ class App extends Component {
           image: res.data.sprites.other['official-artwork'].front_default,
           // image: res.data.sprites.other.dream_world.front_default,
           input: '',
-          cache: {
-            ...this.state.cache,
-            [searchData]: res.data,
-          },
+          // cache: {
+          //   ...this.state.cache,
+          //   [searchData]: res.data,
+          // },
         });
       })
       .catch((err) => {
@@ -78,7 +80,7 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state.cache);
+    // console.log(this.state.cache);
     return (
       <div className="main-container">
         <Title />
