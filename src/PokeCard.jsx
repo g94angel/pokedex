@@ -88,7 +88,7 @@ export default class PokeCard extends Component {
             {data.name[0].toUpperCase() + data.name.slice(1)}
           </h4>
           <div className='card-info'>
-            <p>{'#' + data.id + ' - ' + "The " + genus}</p>
+            <p>{`#${data.id} - The ${genus}`}</p>
             <p>{`Generation ${generation} | ${region} region`}</p>
             <p>{typeString}</p>
             {speciesData.evolves_from_species && <p>{`Evolves from ${speciesData.evolves_from_species.name[0].toUpperCase() + speciesData.evolves_from_species.name.slice(1)}`}</p>}
