@@ -79,7 +79,7 @@ export default class PokeCard extends Component {
     let genus = speciesData.genera[genusNum].genus;
     // console.log(speciesData.genera[genusNum].genus)
     return (
-      <div className='main-container-two'>
+      <div className='card-container'>
         <div className='carousel'>
           {/* disable button if id === 0 */}
           <button disabled={data.id - 1 === 0 ? true : false} onClick={() => this.props.findPokemon(data.id - 1)} className='navigate'><i className="fa fa-thin fa-caret-left"></i></button>

@@ -19,8 +19,7 @@ body {
 }
 
 .pokemon-image {
-  width: 250px;
-  height: 250px;
+  height: 350px;
   padding: 15px;
 }
 
@@ -45,7 +44,7 @@ p {
   color: black;
 }
 
-.main-container-two {
+.card-container {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
