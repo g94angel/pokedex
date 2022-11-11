@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 
 export default class PokeCard extends Component {
   render() {
-    // console.log('props', this.props.state)
+    
     const {data, image, speciesData} = this.props.state;
-    let types = data.types // types is an arr of obj
+    let types = data.types;
     let allTypes = []
     for (const obj of types) {
       allTypes.push(obj.type.name)
