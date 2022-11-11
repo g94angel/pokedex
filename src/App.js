@@ -13,11 +13,12 @@ class App extends Component {
     error: false,
     loaded: false,
     randomNumber: Math.floor(Math.random() * 906),
-    cache: JSON.parse(localStorage.getItem('cache')) || {},
+    cache: {},
+    // cache: JSON.parse(localStorage.getItem('cache')) || {},
   };
 
   componentDidMount() {
-    console.log('mounted');
+    // console.log('mounted');
     this.findPokemon(this.state.randomNumber);
   }
 
@@ -29,12 +30,12 @@ class App extends Component {
   findPokemon = async (searchData) => {
     // if user didn't input data
     if (!searchData) {
-      console.log('no data entered', searchData);
+      // console.log('no data entered', searchData);
       return;
     }
     // if pokemon DNE, alert user
     else if (searchData < 1 || searchData > 905) {
-      console.log('out of scope', searchData);
+      // console.log('out of scope', searchData);
       this.setState({ error: true });
       setTimeout(() => {
         this.setState({ error: false, input: '' });
@@ -42,7 +43,7 @@ class App extends Component {
       return;
       // if pokemon is in cache
     } else if (this.state.cache[searchData]) {
-      console.log('found in cache');
+      // console.log('found in cache');
       this.setState({
         loaded: true,
         data: this.state.cache[searchData].data,
@@ -55,7 +56,7 @@ class App extends Component {
       return;
     }
     // not found in cache
-    console.log('not in cache, making request');
+    // console.log('not in cache, making request');
     try {
       const pokemonData = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${searchData}`
@@ -63,7 +64,7 @@ class App extends Component {
       const speciesData = await axios.get(
         `https://pokeapi.co/api/v2/pokemon-species/${searchData}`
       );
-      console.log('species', speciesData.data);
+      // console.log('species', speciesData.data);
       this.setState({
         input: '',
         loaded: true,
@@ -91,7 +92,7 @@ class App extends Component {
   };
 
   render() {
-    localStorage.setItem('cache', JSON.stringify(this.state.cache));
+    // localStorage.setItem('cache', JSON.stringify(this.state.cache));
     return (
       <div className="main-container">
         <Title />
