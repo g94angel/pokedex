@@ -20,6 +20,7 @@ body {
 
 .pokemon-image {
   height: 400px;
+  width: 400px;
   padding: 5px 10px;
 }
 
@@ -138,6 +139,7 @@ i {
 @media (max-width: 770px) {
   .pokemon-image {
     height: 500px;
+    width: 500px;
   }
 
   .card-info p {
