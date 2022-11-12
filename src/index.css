@@ -9,12 +9,12 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  min-width: 500px;
+  height: 100vh;
 }
 
 .logo {
   margin-top: 20px;
-  width: 500px;
+  width: 600px;
   
 }
 
@@ -26,7 +26,7 @@ body {
 
 input {
   width: 200px;
-  font-size: 1.2rem;  
+  font-size: 1.5rem;  
   padding: 10px;
   margin: 20px 0;
   border: 1px solid transparent;
@@ -63,7 +63,7 @@ input::placeholder {
   justify-content: center;
   align-items: center;
   margin: 0;
-  font-size: 1.5em;
+  font-size: 2em;
 }
 
 h4 {
@@ -86,7 +86,7 @@ button {
 }
 
 .card-info p {
-  font-size: 1.1em;
+  font-size: 1.3em;
   margin: 10px 0;
 }
 
@@ -110,13 +110,13 @@ button {
 .search-container {
   background: #1F2937;
   border: 3px solid #2e3846;
-  height: 55px;
-  width: 320px;
+  height: 75px;
+  width: 350px;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .pokeball-btn {
