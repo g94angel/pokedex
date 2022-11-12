@@ -69,12 +69,12 @@ export default class PokeCard extends Component {
       genusNum = 4;
     }
 
-    let bio = speciesData.flavor_text_entries[descNum].flavor_text.replace(/POKéMON/gi, 'Pokémon').replace(reg, data.name[0].toUpperCase() + data.name.slice(1))
+    let bio = speciesData.flavor_text_entries[descNum].flavor_text.replace(/POKéMON/gi, 'Pokémon').replace(reg, data.name[0].toUpperCase() + data.name.slice(1)).replace(/\f/g, ' ')
     // console.log('flavor_text', speciesData.flavor_text_entries[descNum].flavor_text)
     // if (speciesData.flavor_text_entries) {
     //   bio = speciesData.flavor_text_entries[descNum].flavor_text.replace(/POKéMON/gi, 'Pokémon').replace(reg, data.name[0].toUpperCase() + data.name.slice(1))
     // };
-  
+    console.log('bio', JSON.stringify(bio))
     let genus = speciesData.genera[genusNum].genus;
     // console.log(speciesData.genera[genusNum].genus)
     return (
