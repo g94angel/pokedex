@@ -13,6 +13,7 @@ class App extends Component {
     error: false,
     loaded: false,
     randomNumber: Math.floor(Math.random() * 906),
+    // inCache: false,
     cache: {},
     // cache: JSON.parse(localStorage.getItem('cache')) || {},
   };
@@ -45,6 +46,7 @@ class App extends Component {
     } else if (this.state.cache[searchData]) {
       // console.log('found in cache');
       this.setState({
+        inCache: this.state.cache[searchData].inCache,
         loaded: true,
         data: this.state.cache[searchData].data,
         speciesData: this.state.cache[searchData].speciesData,
@@ -68,6 +70,7 @@ class App extends Component {
       this.setState({
         input: '',
         loaded: true,
+        inCache: false,
         data: pokemonData.data,
         image: pokemonData.data.sprites.other['official-artwork'].front_default,
         // image: res.data.sprites.other.dream_world.front_default,
@@ -80,6 +83,7 @@ class App extends Component {
             image:
               pokemonData.data.sprites.other['official-artwork'].front_default,
             speciesData: speciesData.data,
+            inCache: true,
           },
         },
       });

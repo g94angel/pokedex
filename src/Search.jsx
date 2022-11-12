@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Pokeball from './Pokeball'
 
 export default class Search extends Component {
   render() {
@@ -15,12 +16,19 @@ export default class Search extends Component {
           type="text"
           value={this.props.state.input}
         />
-        <img 
+        <Pokeball
+          findPokemon={this.props.findPokemon}
+          input={this.props.state.input}
+        //   onClick={() => (
+        //     this.props.findPokemon(this.props.state.input.toLowerCase())
+        // )}
+         />
+        {/* <img 
           onClick={() => (
             this.props.findPokemon(this.props.state.input.toLowerCase())
           )}
           className='pokeball-btn' src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1200px-Pok%C3%A9_Ball_icon.svg.png'
-          alt='pokeball'/>
+          alt='pokeball'/> */}
       </div>
     )
   }

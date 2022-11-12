@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import Pokeball from './Pokeball';
 
 export default class PokeCard extends Component {
   render() {
-    
-    const {data, image, speciesData} = this.props.state;
+    const {data, image, speciesData, inCache} = this.props.state;
+    console.log('pokemon', inCache)
     let types = data.types;
     let allTypes = []
     for (const obj of types) {
@@ -99,6 +100,13 @@ export default class PokeCard extends Component {
         <div className='card-details'>
           <h4 className='card-name'>
             {data.name[0].toUpperCase() + data.name.slice(1)}
+            {inCache && 
+            <img 
+              className='pokeball' 
+              src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1200px-Pok%C3%A9_Ball_icon.svg.png'
+              alt='pokeball'
+            />
+      }
           </h4>
           <div className='card-info'>
             {genus && <p>{`#${data.id} - The ${genus}`}</p>}
