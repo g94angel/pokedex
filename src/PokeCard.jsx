@@ -96,16 +96,18 @@ export default class PokeCard extends Component {
         </button> */}
         {/* {this.state.seeDetails &&  */}
         <div className='card-details'>
-          <h4 className='card-name'>
-            {data.name[0].toUpperCase() + data.name.slice(1)}
+          <div className='card-name' >
+            <h4>
+              {data.name[0].toUpperCase() + data.name.slice(1)}
+            </h4>
             {inCache && 
-            <img 
-              className='pokeball' 
-              src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1200px-Pok%C3%A9_Ball_icon.svg.png'
-              alt='pokeball'
-            />
-      }
-          </h4>
+              <img 
+                className='pokeball' 
+                src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1200px-Pok%C3%A9_Ball_icon.svg.png'
+                alt='pokeball'
+              />
+            }
+          </div>
           <div className='card-info'>
             {genus && <p>{`#${data.id} - The ${genus}`}</p>}
             <p>{`Generation ${generation} | ${region} region`}</p>

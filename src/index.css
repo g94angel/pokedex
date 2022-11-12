@@ -19,14 +19,14 @@ body {
 }
 
 .pokemon-image {
-  height: 350px;
+  height: 400px;
   padding: 5px 10px;
 }
 
 input {
-  width: 150px;
+  width: 200px;
+  font-size: 1.2rem;  
   padding: 10px;
-  font-size: 1rem;
   margin: 20px 0;
   border: 1px solid transparent;
   outline: none;
@@ -40,9 +40,7 @@ input::placeholder {
   color: #657283;
 }
 
-p {
-  color: black;
-}
+
 
 .card-container {
   display: flex;
@@ -53,22 +51,22 @@ p {
 }
 
 .card-details {
-  margin: 20px 0;
+  /* margin: 20px 0; */
   display: flex;
   flex-direction: column;
   color: white
 } 
 
-p {
-  padding: 0;
-  margin-bottom: 10px;
-  color: white;
-}
-
 .card-name {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+  margin: 0;
+  font-size: 1.2em;
+}
+
+h4 {
+  padding: 10px 0;
   margin: 0;
 }
 
@@ -86,9 +84,9 @@ button {
   color: red;
 }
 
-.card-info {
-  font-size: 15px;
-  /* width: 400px; */
+.card-info p {
+  font-size: .8em;
+  margin: 10px 0;
 }
 
 
@@ -111,23 +109,24 @@ button {
 .search-container {
   background: #1F2937;
   border: 3px solid #2e3846;
-  height: 50px;
+  height: 55px;
+  width: 320px;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 230px;
   margin-top: 20px;
 }
 
 .pokeball-btn {
-  width: 55px;
-  height: 55px;
+  width: 65px;
+  height: 65px;
   cursor: pointer;
 }
 
 i {
   color: red;
+  font-size: 1.5em;
 }
 
 .pokeball {
@@ -139,65 +138,23 @@ i {
 @media (max-width: 768px) {
   .pokemon-image {
     height: 500px;
-  
-  }
-  .card-info p {
-    font-size: 1.4em;
-  }
-
-  .card-name { 
-    font-size: 1.5em;
-  }
-  .search-container {
-    height: 65px;
-    width: 300px;
-  }
-
-  .pokeball-btn {
-    width: 75px;
-    height: 75px;
-  }
-  
-  input {
-    width: 175px;
-    font-size: 1.4rem;
-  }
-
-  i {
-    font-size: 1.7em;
-  }
-}
-
-@media (min-width: 769px) {
-  .pokemon-image {
-    height: 400px;
-    /* padding: 20px; */
   }
 
   .card-info p {
-    /* margin: 20px 0; */
-    font-size: 1.1em;
-    margin: .5em 0;
-    /* line-height: 1.7em; */
-  }
-
-  .card-name {
-    font-size: 1.2em;
-  }
-
-  .search-container {
-    height: 55px;
-    width: 320px;
+    font-size: 1em;
     
   }
 
-  .pokeball-btn {
-    width: 65px;
-    height: 65px;
+  .card-name { 
+    font-size: 1.4em;
   }
 
-  input {
-    width: 200px;
-    font-size: 1.2rem;
+  .pokeball {
+    width: 45px;
+    height: 45px;
+  }
+
+  i {
+    font-size: 2em;
   }
 }
