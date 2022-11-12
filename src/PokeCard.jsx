@@ -4,7 +4,6 @@ import Pokeball from './Pokeball';
 export default class PokeCard extends Component {
   render() {
     const {data, image, speciesData, inCache} = this.props.state;
-    console.log('pokemon', inCache)
     let types = data.types;
     let allTypes = []
     for (const obj of types) {
