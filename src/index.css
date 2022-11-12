@@ -2,7 +2,7 @@ body {
   margin: 0 auto;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: #1F2937;
-  /* height: 100vh; */
+  font-family: LiberationSansRegular;
 }
 
 .main-container {
