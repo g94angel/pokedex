@@ -104,7 +104,7 @@ button {
 
 .navigate {
   background: #2e3846;
-  padding: 5px 15px;
+  padding: 10px 20px;
   margin: 0 10px;
 }
 
@@ -135,3 +135,49 @@ i {
   height: 30px;
   margin-left: 10px;
 }
+
+@media (max-width: 670px) {
+  .pokemon-image {
+    height: 450px;
+    /* padding: 20px; */
+  }
+  .card-info p {
+    /* margin: 20px 0; */
+    font-size: 1.3em;
+  }
+
+  .card-name { 
+    font-size: 1.5em;
+  }
+  
+  /* input {
+    width: 150px;
+    padding: 10px;
+    font-size: 1rem;
+    margin: 20px 0;
+    border: 1px solid transparent;
+    outline: none;
+    border-radius: 5px;
+    background-color: #1F2937;
+    color: white;
+    text-align: center;
+  } */
+}
+
+/* @media (min-width: 700px) and (max-width: 1028px) {
+  .heading {
+    font-size: 64px;
+  }
+
+  .subheading {
+    font-size: 24px;
+  }
+
+  .event-image {
+    width: 400px;
+  }
+
+  .main-container {
+    width: 500px;
+  }
+} */
