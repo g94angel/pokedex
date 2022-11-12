@@ -162,6 +162,10 @@ i {
     width: 175px;
     font-size: 1.4rem;
   }
+
+  i {
+    font-size: 1.7em;
+  }
 }
 
 @media (min-width: 769px) {
