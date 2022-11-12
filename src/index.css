@@ -137,7 +137,7 @@ i {
 
 @media (max-width: 770px) {
   .pokemon-image {
-    height: 1000px;
+    height: 500px;
   }
 
   .card-info p {
