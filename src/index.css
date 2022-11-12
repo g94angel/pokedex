@@ -19,9 +19,9 @@ body {
 }
 
 .pokemon-image {
-  height: 800px;
-  width: 800px;
-  padding: 5px 10px;
+  height: 700px;
+  width: 700px;
+  padding: 10px 15px;
 }
 
 input {
@@ -63,7 +63,7 @@ input::placeholder {
   justify-content: center;
   align-items: center;
   margin: 0;
-  font-size: 1.2em;
+  font-size: 1.5em;
 }
 
 h4 {
@@ -86,7 +86,7 @@ button {
 }
 
 .card-info p {
-  font-size: .8em;
+  font-size: 1.1em;
   margin: 10px 0;
 }
 
@@ -103,7 +103,7 @@ button {
 
 .navigate {
   background: #2e3846;
-  padding: 10px 20px;
+  padding: 20px 30px;
   margin: 0 10px;
 }
 
@@ -127,16 +127,16 @@ button {
 
 i {
   color: red;
-  font-size: 1.5em;
+  font-size: 3em;
 }
 
 .pokeball {
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
   margin-left: 10px;
 }
 
-@media (max-width: 400px) {
+/* @media (max-width: 400px) {
   .pokemon-image {
     height: 500px;
     width: 500px;
@@ -159,4 +159,4 @@ i {
   i {
     font-size: 2em;
   }
-}
+} */
