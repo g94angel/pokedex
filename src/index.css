@@ -20,7 +20,7 @@ body {
 
 .pokemon-image {
   height: 350px;
-  padding: 15px;
+  padding: 5px 10px;
 }
 
 input {
@@ -166,32 +166,34 @@ i {
 
 @media (min-width: 769px) {
   .pokemon-image {
-    height: 570px;
+    height: 400px;
     /* padding: 20px; */
   }
 
   .card-info p {
     /* margin: 20px 0; */
-    font-size: 1.25em;
+    font-size: 1.1em;
+    margin: .5em 0;
+    /* line-height: 1.7em; */
   }
 
   .card-name {
-    font-size: 1.6em;
+    font-size: 1.2em;
   }
 
   .search-container {
-    height: 75px;
+    height: 55px;
     width: 320px;
     
   }
 
   .pokeball-btn {
-    width: 85px;
-    height: 85px;
+    width: 65px;
+    height: 65px;
   }
 
   input {
     width: 200px;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
