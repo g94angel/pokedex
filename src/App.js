@@ -97,6 +97,7 @@ class App extends Component {
 
   render() {
     // localStorage.setItem('cache', JSON.stringify(this.state.cache));
+
     return (
       <div className="main-container">
         <Title />

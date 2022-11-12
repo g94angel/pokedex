@@ -68,7 +68,7 @@ p {
 .card-name {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   margin: 0;
 }
 
@@ -131,53 +131,67 @@ i {
 }
 
 .pokeball {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   margin-left: 10px;
 }
 
-@media (max-width: 670px) {
+@media (max-width: 768px) {
   .pokemon-image {
-    height: 450px;
-    /* padding: 20px; */
+    height: 500px;
+  
   }
   .card-info p {
-    /* margin: 20px 0; */
-    font-size: 1.3em;
+    font-size: 1.4em;
   }
 
   .card-name { 
     font-size: 1.5em;
   }
+  .search-container {
+    height: 65px;
+    width: 300px;
+  }
+
+  .pokeball-btn {
+    width: 75px;
+    height: 75px;
+  }
   
-  /* input {
-    width: 150px;
-    padding: 10px;
-    font-size: 1rem;
-    margin: 20px 0;
-    border: 1px solid transparent;
-    outline: none;
-    border-radius: 5px;
-    background-color: #1F2937;
-    color: white;
-    text-align: center;
-  } */
+  input {
+    width: 175px;
+    font-size: 1.4rem;
+  }
 }
 
-/* @media (min-width: 700px) and (max-width: 1028px) {
-  .heading {
-    font-size: 64px;
+@media (min-width: 769px) {
+  .pokemon-image {
+    height: 570px;
+    /* padding: 20px; */
   }
 
-  .subheading {
-    font-size: 24px;
+  .card-info p {
+    /* margin: 20px 0; */
+    font-size: 1.25em;
   }
 
-  .event-image {
-    width: 400px;
+  .card-name {
+    font-size: 1.6em;
   }
 
-  .main-container {
-    width: 500px;
+  .search-container {
+    height: 75px;
+    width: 320px;
+    
   }
-} */
+
+  .pokeball-btn {
+    width: 85px;
+    height: 85px;
+  }
+
+  input {
+    width: 200px;
+    font-size: 1.5rem;
+  }
+}
