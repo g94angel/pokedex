@@ -1,7 +1,6 @@
 body {
   margin: 0 auto;
   background-color: #1F2937;
-  /* font-family: LiberationSansRegular; */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -50,7 +49,6 @@ input::placeholder {
 }
 
 .card-details {
-  /* margin: 20px 0; */
   display: flex;
   flex-direction: column;
   color: white
@@ -111,7 +109,6 @@ button {
   background: #1F2937;
   border: 3px solid #2e3846;
   height: 75px;
-  /* width: 400px; */
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
@@ -137,6 +134,8 @@ i {
   height: 45px;
   margin-left: 10px;
 }
+
+/* didn't need these */
 
 /* @media (max-width: 400px) {
   .pokemon-image {
