@@ -45,7 +45,7 @@ class App extends Component {
       // if pokemon is in cache
     } else if (this.state.cache[searchData]) {
       // console.log('found in cache');
-      console.log(searchData);
+      // console.log(searchData);
       this.setState({
         inCache: this.state.cache[searchData].inCache,
         loaded: true,
