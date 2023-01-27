@@ -1,3 +1,5 @@
+View deployed app here: https://agpokedex.netlify.app/
+
 Your very own Pokédex. Find and learn all about your favorite Pokémon.
 
 In the project directory, you can run:
