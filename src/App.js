@@ -13,13 +13,10 @@ class App extends Component {
     error: false,
     loaded: false,
     randomNumber: Math.floor(Math.random() * 906),
-    // inCache: false,
     cache: {},
-    // cache: JSON.parse(localStorage.getItem('cache')) || {},
   };
 
   componentDidMount() {
-    // console.log('mounted');
     this.findPokemon(this.state.randomNumber);
   }
 
@@ -105,8 +102,6 @@ class App extends Component {
   };
 
   render() {
-    // localStorage.setItem('cache', JSON.stringify(this.state.cache));
-
     return (
       <div className="main-container">
         <Title />
@@ -116,7 +111,9 @@ class App extends Component {
           findPokemon={this.findPokemon}
         />
         {this.state.error && (
-          <p className="warning">That Pokemon does not exist.</p>
+          <p className="warning">
+            {this.state.input} is not a Pokemon. Please try again.
+          </p>
         )}
         {this.state.loaded && (
           <PokeCard state={this.state} findPokemon={this.findPokemon} />
