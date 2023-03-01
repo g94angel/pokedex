@@ -6,7 +6,7 @@ export default class Search extends Component {
     return (
       <div className='search-container'>
         <input
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") {
               this.props.findPokemon(this.props.state.input.toLowerCase())
             }

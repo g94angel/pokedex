@@ -8,8 +8,8 @@ class App extends Component {
   state = {
     input: '',
     image: '',
-    data: null,
-    speciesData: null,
+    data: null, // will need to make one request here
+    speciesData: null, // and another here
     error: false,
     loaded: false,
     randomNumber: Math.floor(Math.random() * 906),
@@ -56,7 +56,7 @@ class App extends Component {
       });
       return;
     }
-    // not found in cache
+    // not found in cache, need to make request
     // console.log('not in cache, making request');
     try {
       const pokemonData = await axios.get(

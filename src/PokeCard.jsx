@@ -11,7 +11,7 @@ export default class PokeCard extends Component {
     }
     let typeString = ''
     for (let i=0; i<allTypes.length; i++) {
-      if (i === allTypes.length -1) {
+      if (i === allTypes.length-1) {
         typeString += allTypes[i][0].toUpperCase() + allTypes[i].slice(1);  
       } else {
         typeString += allTypes[i][0].toUpperCase() + allTypes[i].slice(1) + ' | ';
