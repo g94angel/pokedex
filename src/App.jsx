@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import PokeCard from './PokeCard';
-import Search from './Search';
-import Title from './Title';
+import React, { Component } from "react";
+import axios from "axios";
+import PokeCard from "./PokeCard";
+import Search from "./Search";
+import Title from "./Title";
+import Loader from "./Loader";
 
 class App extends Component {
   state = {
-    input: '',
-    image: '',
+    input: "",
+    image: "",
     data: null, // will need to make one request here
     speciesData: null, // and another here
     error: false,
@@ -26,6 +27,7 @@ class App extends Component {
   };
 
   findPokemon = async (searchData) => {
+    this.setState({ loaded: false });
     // if user didn't input data
     if (!searchData) {
       // console.log('no data entered', searchData);
@@ -36,7 +38,7 @@ class App extends Component {
       // console.log('out of scope', searchData);
       this.setState({ error: true });
       setTimeout(() => {
-        this.setState({ error: false, input: '' });
+        this.setState({ error: false, input: "" });
       }, 2000);
       return;
       // if pokemon is in cache
@@ -52,7 +54,7 @@ class App extends Component {
         //   this.state.cache[searchData].data.sprites.other['official-artwork']
         //     .front_default,
         image: this.state.cache[searchData].image,
-        input: '',
+        input: "",
       });
       return;
     }
@@ -66,7 +68,7 @@ class App extends Component {
         `https://pokeapi.co/api/v2/pokemon-species/${searchData}`
       );
       this.setState({
-        input: '',
+        input: "",
         loaded: true,
         inCache: false,
         data: pokemonData.data,
@@ -74,7 +76,7 @@ class App extends Component {
         image:
           pokemonData.data.id <= 649
             ? pokemonData.data.sprites.other.dream_world.front_default
-            : pokemonData.data.sprites.other['official-artwork'].front_default,
+            : pokemonData.data.sprites.other["official-artwork"].front_default,
         // pokemonData.data.sprites.other.dream_world.front_default,
 
         speciesData: speciesData.data,
@@ -86,7 +88,7 @@ class App extends Component {
             image:
               pokemonData.data.id <= 649
                 ? pokemonData.data.sprites.other.dream_world.front_default
-                : pokemonData.data.sprites.other['official-artwork']
+                : pokemonData.data.sprites.other["official-artwork"]
                     .front_default,
             speciesData: speciesData.data,
             inCache: true,
@@ -96,7 +98,7 @@ class App extends Component {
     } catch (err) {
       this.setState({ error: true });
       setTimeout(() => {
-        this.setState({ error: false, input: '' });
+        this.setState({ error: false, input: "" });
       }, 2000);
     }
   };
@@ -115,8 +117,10 @@ class App extends Component {
             {this.state.input} is not a Pokemon. Please try again.
           </p>
         )}
-        {this.state.loaded && (
+        {this.state.loaded ? (
           <PokeCard state={this.state} findPokemon={this.findPokemon} />
+        ) : (
+          <Loader />
         )}
       </div>
     );

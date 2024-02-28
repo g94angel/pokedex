@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PokeballImg from './images/pokeball.png'
 
 
 export default class Pokeball extends Component {
@@ -9,7 +10,7 @@ export default class Pokeball extends Component {
           this.props.findPokemon(this.props.input.toLowerCase())
         )}
         className={this.props.class} 
-        src={require('./images/pokeball.png')}
+        src={PokeballImg}
         alt='pokeball'
       />
     )

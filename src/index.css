@@ -1,7 +1,7 @@
 body {
   margin: 0 auto;
-  background-color: #1F2937;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1f2937;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .main-container {
@@ -14,22 +14,21 @@ body {
 .logo {
   margin-top: 20px;
   width: 600px;
-  
 }
 
 .pokemon-image {
-  height: 600px;
-  width: 600px;
+  height: 500px;
+  width: 500px;
   padding: 10px 15px;
 }
 
 input {
   width: 400px;
-  font-size: 1.8rem;  
+  font-size: 1.8rem;
   border: 1px solid transparent;
   outline: none;
   border-radius: 5px;
-  background-color: #1F2937;
+  background-color: #1f2937;
   color: white;
   text-align: center;
 }
@@ -37,8 +36,6 @@ input {
 input::placeholder {
   color: #657283;
 }
-
-
 
 .card-container {
   display: flex;
@@ -51,8 +48,8 @@ input::placeholder {
 .card-details {
   display: flex;
   flex-direction: column;
-  color: white
-} 
+  color: white;
+}
 
 .card-name {
   display: flex;
@@ -68,7 +65,7 @@ h4 {
 }
 
 button {
-  background: #1F2937;
+  background: #1f2937;
   border: 3px solid #2e3846;
   border-radius: 8px;
   padding: 10px 15px;
@@ -87,10 +84,9 @@ button {
   margin: 5px 0;
 }
 
-
 .details-btn {
   width: 200px;
-  color: #657283
+  color: #657283;
 }
 
 .carousel {
@@ -106,7 +102,7 @@ button {
 
 .search-container {
   position: relative;
-  background: #1F2937;
+  background: #1f2937;
   border: 3px solid #2e3846;
   height: 75px;
   border-radius: 5px;
@@ -135,29 +131,30 @@ i {
   margin-left: 10px;
 }
 
-/* didn't need these */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  /* flex-direction: column; */
+  align-items: center;
+  width: 700px;
+  height: 600px;
+}
 
-/* @media (max-width: 400px) {
-  .pokemon-image {
-    height: 500px;
-    width: 500px;
-  }
+.loader {
+  margin-top: 25px;
+  border-radius: 50%;
+  animation: spin 2s infinite linear;
+  margin-bottom: 25px;
+  height: 250px;
+  width: 250px;
+  /* padding: 10px 15px; */
+}
 
-  .card-info p {
-    font-size: 1em;
-    
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-
-  .card-name { 
-    font-size: 1.5em;
+  100% {
+    transform: rotate(360deg);
   }
-
-  .pokeball {
-    width: 45px;
-    height: 45px;
-  }
-
-  i {
-    font-size: 2em;
-  }
-} */
+}
