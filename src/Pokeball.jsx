@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PokeballImg from './images/pokeball.png'
 
-
 export default class Pokeball extends Component {
   render() {
     return (

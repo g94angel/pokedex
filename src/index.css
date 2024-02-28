@@ -126,9 +126,10 @@ i {
 }
 
 .pokeball {
-  width: 45px;
-  height: 45px;
-  margin-left: 10px;
+  width: 20px;
+  height: 20px;
+  margin-left: 4px;
+  margin-top: 6px;
 }
 
 .loader-container {
@@ -140,12 +141,11 @@ i {
 }
 
 .loader {
-  margin-top: 25px;
   border-radius: 50%;
   animation: spin 2s infinite linear;
-  margin-bottom: 25px;
-  height: 250px;
-  width: 250px;
+  margin: 25px 0;
+  height: 150px;
+  width: 150px;
   /* padding: 10px 15px; */
 }
 
