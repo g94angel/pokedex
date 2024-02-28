@@ -13,18 +13,18 @@ body {
 
 .logo {
   margin-top: 20px;
-  width: 600px;
+  width: 350px;
 }
 
 .pokemon-image {
-  height: 500px;
-  width: 500px;
+  height: 300px;
+  width: 300px;
   padding: 10px 15px;
 }
 
 input {
-  width: 400px;
-  font-size: 1.8rem;
+  width: 300px;
+  font-size: 1.5rem;
   border: 1px solid transparent;
   outline: none;
   border-radius: 5px;
@@ -42,7 +42,7 @@ input::placeholder {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  width: 700px;
+  width: 400px;
 }
 
 .card-details {
@@ -56,7 +56,7 @@ input::placeholder {
   justify-content: center;
   align-items: center;
   margin: 0;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 h4 {
@@ -74,13 +74,13 @@ button {
 }
 
 .warning {
-  font-size: 32px;
+  font-size: 24px;
   color: red;
 }
 
 .card-info p {
-  font-size: 1.4em;
-  line-height: 1.5em;
+  font-size: 1.2em;
+  line-height: 1.3em;
   margin: 5px 0;
 }
 
@@ -96,33 +96,33 @@ button {
 
 .navigate {
   background: #2e3846;
-  padding: 20px 30px;
-  margin: 0 50px;
+  padding: 10px 20px;
+  margin: 0 30px;
 }
 
 .search-container {
   position: relative;
   background: #1f2937;
   border: 3px solid #2e3846;
-  height: 75px;
+  height: 55px;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .pokeball-btn {
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   position: absolute;
-  right: 0;
+  right: 3px;
   cursor: pointer;
 }
 
 i {
   color: red;
-  font-size: 3em;
+  font-size: 2em;
 }
 
 .pokeball {
@@ -134,10 +134,9 @@ i {
 .loader-container {
   display: flex;
   justify-content: center;
-  /* flex-direction: column; */
   align-items: center;
-  width: 700px;
-  height: 600px;
+  width: 300px;
+  height: 300px;
 }
 
 .loader {
