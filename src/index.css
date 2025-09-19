@@ -1,9 +1,15 @@
+/* Base Styles */
 body {
-  margin: 0 auto;
+  margin: 0;
   background-color: #1f2937;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* Layout Containers */
 .main-container {
   display: flex;
   flex-direction: column;
@@ -11,125 +17,66 @@ body {
   text-align: center;
 }
 
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  gap: 10px;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Typography */
+h4 {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 1.5em;
+}
+
+.card-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.card-info p {
+  margin: 4px 0;
+  font-size: 1.2em;
+  line-height: 1.3;
+}
+
+.warning {
+  font-size: 1.5em;
+  color: rgb(198, 27, 27);
+}
+
+/* Logo + Images */
 .logo {
   margin-top: 20px;
   width: 350px;
 }
 
 .pokemon-image {
+  width: 300px;
   height: 300px;
-  width: 300px;
   padding: 10px 15px;
-}
-
-input {
-  width: 300px;
-  font-size: 1.5rem;
-  border: 1px solid transparent;
-  outline: none;
-  border-radius: 5px;
-  background-color: #1f2937;
-  color: white;
-  text-align: center;
-}
-
-input::placeholder {
-  color: #657283;
-}
-
-.card-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 400px;
-}
-
-.card-details {
-  display: flex;
-  flex-direction: column;
-  color: white;
-}
-
-.card-name {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  font-size: 1.5em;
-}
-
-h4 {
-  padding: 10px 0;
-  margin: 0;
-}
-
-button {
-  background: #1f2937;
-  border: 3px solid #2e3846;
-  border-radius: 8px;
-  padding: 10px 15px;
-  color: white;
-  cursor: pointer;
-}
-
-.warning {
-  font-size: 24px;
-  color: red;
-}
-
-.card-info p {
-  font-size: 1.2em;
-  line-height: 1.3em;
-  margin: 5px 0;
-}
-
-.details-btn {
-  width: 200px;
-  color: #657283;
-}
-
-.carousel {
-  display: flex;
-  align-items: center;
-}
-
-.navigate {
-  background: #2e3846;
-  padding: 10px 20px;
-  margin: 0 30px;
-}
-
-.search-container {
-  position: relative;
-  background: #1f2937;
-  border: 3px solid #2e3846;
-  height: 55px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-}
-
-.pokeball-btn {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  right: 3px;
-  cursor: pointer;
-}
-
-i {
-  color: red;
-  font-size: 2em;
 }
 
 .pokeball {
   width: 20px;
   height: 20px;
-  margin-left: 4px;
-  margin-top: 6px;
 }
 
 .loader-container {
@@ -141,19 +88,103 @@ i {
 }
 
 .loader {
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   animation: spin 2s infinite linear;
   margin: 25px 0;
-  height: 150px;
-  width: 150px;
-  /* padding: 10px 15px; */
 }
 
+/* Inputs */
+input {
+  width: 300px;
+  font-size: 1.5rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background-color: #1f2937;
+  color: white;
+  text-align: center;
+}
+
+input::placeholder {
+  color: #657283;
+}
+
+/* Buttons */
+button {
+  background: #1f2937;
+  border: 3px solid #2e3846;
+  border-radius: 8px;
+  padding: 10px 15px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  background: #2e3846;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.navigate {
+  background: #2e3846;
+  padding: 10px 20px;
+}
+
+.details-btn {
+  width: 200px;
+  color: #657283;
+}
+
+/* Search */
+.search-container {
+  position: relative;
+  background: #1f2937;
+  border: 3px solid #2e3846;
+  height: 55px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-right: 55px;
+}
+
+.pokeball-btn {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 3px;
+  cursor: pointer;
+}
+
+/* Icons */
+i {
+  color: rgb(198, 27, 27);
+  font-size: 2em;
+}
+
+/* Animations */
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Shake animation for empty search */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.search-container.shake {
+  border: 2px solid rgb(198, 27, 27);
+  animation: shake 0.5s ease;
 }

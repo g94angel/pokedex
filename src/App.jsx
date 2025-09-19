@@ -9,101 +9,120 @@ class App extends Component {
   state = {
     input: "",
     image: "",
-    data: null, // will need to make one request here
-    speciesData: null, // and another here
+    data: null,
+    speciesData: null,
     error: false,
     loaded: false,
-    randomNumber: Math.floor(Math.random() * 906),
+    firstPokemon: 1,
     cache: {},
+    inCache: false, // track if current Pokémon was seen before
   };
 
   componentDidMount() {
-    this.findPokemon(this.state.randomNumber);
+    this.findPokemon(this.state.firstPokemon);
   }
 
   handleChange = (e) => {
-    const { value } = e.target;
-    this.setState({ input: value });
+    this.setState({ input: e.target.value });
+  };
+
+  getSprite = (pokemonData) =>
+    pokemonData.id <= 649
+      ? pokemonData.sprites.other.dream_world.front_default
+      : pokemonData.sprites.other["official-artwork"].front_default;
+
+  // Show error and recover after 2s
+  handleError = () => {
+    this.setState({ error: true, loaded: true }); // stop loader
+    setTimeout(this.recoverFromError, 2000);
+  };
+
+  recoverFromError = () => {
+    const firstCachedKey = Object.keys(this.state.cache)[0];
+
+    if (firstCachedKey) {
+      const { data, speciesData, image } = this.state.cache[firstCachedKey];
+      this.setState({
+        error: false,
+        input: "",
+        data,
+        speciesData,
+        image,
+        loaded: true,
+        inCache: true,
+      });
+    } else {
+      this.setState({
+        error: false,
+        input: "",
+        data: null,
+        speciesData: null,
+        image: "",
+        loaded: false,
+        inCache: false,
+      });
+    }
+  };
+
+  fetchPokemonData = async (search) => {
+    const [pokemonRes, speciesRes] = await Promise.all([
+      axios.get(`https://pokeapi.co/api/v2/pokemon/${search}`),
+      axios.get(`https://pokeapi.co/api/v2/pokemon-species/${search}`),
+    ]);
+
+    const image = this.getSprite(pokemonRes.data);
+
+    return { data: pokemonRes.data, speciesData: speciesRes.data, image };
   };
 
   findPokemon = async (searchData) => {
+    const search = String(searchData).trim().toLowerCase();
     this.setState({ loaded: false });
-    // if user didn't input data
-    if (!searchData) {
-      // console.log('no data entered', searchData);
-      return;
-    }
-    // if pokemon DNE, alert user
-    else if (searchData < 1 || searchData > 905) {
-      // console.log('out of scope', searchData);
-      this.setState({ error: true });
-      setTimeout(() => {
-        this.setState({ error: false, input: "" });
-      }, 2000);
-      return;
-      // if pokemon is in cache
-    } else if (this.state.cache[searchData]) {
-      // console.log('found in cache');
-      // console.log(searchData);
-      this.setState({
-        inCache: this.state.cache[searchData].inCache,
-        loaded: true,
-        data: this.state.cache[searchData].data,
-        speciesData: this.state.cache[searchData].speciesData,
-        // image:
-        //   this.state.cache[searchData].data.sprites.other['official-artwork']
-        //     .front_default,
-        image: this.state.cache[searchData].image,
-        input: "",
-      });
-      return;
-    }
-    // not found in cache, need to make request
-    // console.log('not in cache, making request');
-    try {
-      const pokemonData = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${searchData}`
-      );
-      const speciesData = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon-species/${searchData}`
-      );
-      this.setState({
-        input: "",
-        loaded: true,
-        inCache: false,
-        data: pokemonData.data,
-        // image: pokemonData.data.sprites.other['official-artwork'].front_default,
-        image:
-          pokemonData.data.id <= 649
-            ? pokemonData.data.sprites.other.dream_world.front_default
-            : pokemonData.data.sprites.other["official-artwork"].front_default,
-        // pokemonData.data.sprites.other.dream_world.front_default,
 
-        speciesData: speciesData.data,
-        cache: {
-          ...this.state.cache,
-          [searchData]: {
-            ...this.state.cache[searchData],
-            data: pokemonData.data,
-            image:
-              pokemonData.data.id <= 649
-                ? pokemonData.data.sprites.other.dream_world.front_default
-                : pokemonData.data.sprites.other["official-artwork"]
-                    .front_default,
-            speciesData: speciesData.data,
-            inCache: true,
-          },
-        },
+    if (!search) return this.handleError();
+
+    const searchNum = Number(search);
+    if (!isNaN(searchNum) && (searchNum < 1 || searchNum > 905))
+      return this.handleError();
+
+    // Check cache first
+    if (this.state.cache[search]) {
+      const { data, speciesData, image } = this.state.cache[search];
+      this.setState({
+        data,
+        speciesData,
+        image,
+        inCache: true,
+        loaded: true,
+        input: "",
       });
+      return;
+    }
+
+    // Fetch fresh data
+    try {
+      const { data, speciesData, image } = await this.fetchPokemonData(search);
+
+      this.setState((prevState) => ({
+        data,
+        speciesData,
+        image,
+        inCache: false,
+        loaded: true,
+        input: "",
+        cache: {
+          ...prevState.cache,
+          [search]: { data, speciesData, image, inCache: true },
+        },
+      }));
     } catch (err) {
-      this.setState({ error: true });
-      setTimeout(() => {
-        this.setState({ error: false, input: "" });
-      }, 2000);
+      this.handleError();
     }
   };
 
   render() {
+    const { error, input, loaded } = this.state;
+
     return (
       <div className="main-container">
         <Title />
@@ -112,12 +131,14 @@ class App extends Component {
           handleChange={this.handleChange}
           findPokemon={this.findPokemon}
         />
-        {this.state.error && (
+
+        {error && (
           <p className="warning">
-            {this.state.input} is not a Pokemon. Please try again.
+            {input || "Input"} is not a valid Pokémon. Please try again.
           </p>
         )}
-        {this.state.loaded ? (
+
+        {loaded ? (
           <PokeCard state={this.state} findPokemon={this.findPokemon} />
         ) : (
           <Loader />

@@ -1,27 +1,46 @@
-import React, { Component } from 'react'
-import Pokeball from './Pokeball'
+import React, { Component } from "react";
+import Pokeball from "./Pokeball";
 
 export default class Search extends Component {
+  state = {
+    shake: false,
+  };
+
+  handleKeyDown = (e) => {
+    if (e.key !== "Enter") return;
+    if (this.props.state.input) {
+      this.props.findPokemon(this.props.state.input.toLowerCase());
+    } else {
+      this.triggerShake();
+    }
+  };
+
+
+  triggerShake = () => {
+    this.setState({ shake: true });
+    setTimeout(() => this.setState({ shake: false }), 500); // reset after animation
+  };
+
   render() {
+    const { state, handleChange, findPokemon } = this.props;
+    const { shake } = this.state;
+
     return (
-      <div className='search-container'>
+      <div className={`search-container ${shake ? "shake" : ""}`}>
         <input
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              this.props.findPokemon(this.props.state.input.toLowerCase())
-            }
-          }}
-          onChange={this.props.handleChange}
-          placeholder='Search'
+          onKeyDown={this.handleKeyDown}
+          onChange={handleChange}
+          placeholder="Search"
           type="text"
-          value={this.props.state.input}
+          value={state.input}
         />
         <Pokeball
-          findPokemon={this.props.findPokemon}
-          input={this.props.state.input}
-          class='pokeball-btn'
-         />
+          findPokemon={findPokemon}
+          input={state.input}
+          onEmptySearch={this.triggerShake}
+          class="pokeball-btn"
+        />
       </div>
-    )
+    );
   }
 }

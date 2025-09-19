@@ -1,17 +1,28 @@
-import React, { Component } from 'react'
-import PokeballImg from './images/pokeball.png'
+import React, { Component } from "react";
+import PokeballImg from "./images/pokeball.png";
 
 export default class Pokeball extends Component {
+  handleClick = () => {
+    const { findPokemon, input, onEmptySearch } = this.props;
+    if (!input) {
+      // trigger shake animation when empty
+      if (onEmptySearch) onEmptySearch();
+      return;
+    }
+
+    if (findPokemon) {
+      findPokemon(input.toLowerCase());
+    }
+  };
+
   render() {
     return (
-      <img 
-        onClick={() => (
-          this.props.findPokemon(this.props.input.toLowerCase())
-        )}
-        className={this.props.class} 
+      <img
+        onClick={this.handleClick}
+        className={this.props.class}
         src={PokeballImg}
-        alt='pokeball'
+        alt="pokeball"
       />
-    )
+    );
   }
 }
