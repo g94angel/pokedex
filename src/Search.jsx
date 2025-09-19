@@ -38,7 +38,7 @@ export default class Search extends Component {
           findPokemon={findPokemon}
           input={state.input}
           onEmptySearch={this.triggerShake}
-          class="pokeball-btn"
+          className="pokeball-btn"
         />
       </div>
     );

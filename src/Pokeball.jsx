@@ -19,7 +19,7 @@ export default class Pokeball extends Component {
     return (
       <img
         onClick={this.handleClick}
-        className={this.props.class}
+        className={this.props.className}
         src={PokeballImg}
         alt="pokeball"
       />

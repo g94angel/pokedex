@@ -1,12 +1,16 @@
 /* Base Styles */
 body {
   margin: 0;
+  padding: 10px;
+  min-height: 100vh;
+  box-sizing: border-box;
   background-color: #1f2937;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
 }
 
 /* Layout Containers */
@@ -14,82 +18,95 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 450px;
   text-align: center;
-}
-
-.carousel {
-  display: flex;
-  align-items: center;
-  gap: 30px;
 }
 
 .card-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 400px;
+  width: 90%;
+  max-width: 400px;
   gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .card-details {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  width: 100%;
+}
+
+/* Card Name + Pokeball */
+.card-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Card Info */
+.card-info p {
+  margin: 4px 0;
+  font-size: 1rem;
+  line-height: 1.3;
+  text-align: center;
 }
 
 /* Typography */
 h4 {
   margin: 0;
   padding: 10px 0;
-  font-size: 1.5em;
-}
-
-.card-name {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.card-info p {
-  margin: 4px 0;
-  font-size: 1.2em;
-  line-height: 1.3;
+  font-size: 1.3em;
 }
 
 .warning {
-  font-size: 1.5em;
+  font-size: 1.2em;
   color: rgb(198, 27, 27);
+  margin-top: 10px;
 }
 
-/* Logo + Images */
+/* Images & Logo */
 .logo {
   margin-top: 20px;
-  width: 350px;
+  width: 80%;
+  max-width: 350px;
 }
 
+.card-image,
 .pokemon-image {
-  width: 300px;
-  height: 300px;
-  padding: 10px 15px;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  object-fit: contain;
+  margin: 10px 0;
 }
 
 .pokeball {
-  width: 20px;
-  height: 20px;
+  margin-top: 3px;
+  width: 30px;
+  height: 30px;
 }
 
+/* Loader */
 .loader-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   height: 300px;
 }
 
 .loader {
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  max-width: 150px;
+  height: auto;
   border-radius: 50%;
   animation: spin 2s infinite linear;
   margin: 25px 0;
@@ -97,14 +114,17 @@ h4 {
 
 /* Inputs */
 input {
-  width: 300px;
-  font-size: 1.5rem;
+  width: 100%;
+  max-width: 300px;
+  font-size: 1.2rem;
   border: none;
   outline: none;
   border-radius: 5px;
   background-color: #1f2937;
   color: white;
   text-align: center;
+  padding: 8px 10px;
+  box-sizing: border-box;
 }
 
 input::placeholder {
@@ -132,32 +152,30 @@ button:disabled {
 }
 
 .navigate {
-  background: #2e3846;
-  padding: 10px 20px;
+  padding: 8px 12px;
+  font-size: 1.2rem;
 }
 
-.details-btn {
-  width: 200px;
-  color: #657283;
-}
-
-/* Search */
+/* Search Container */
 .search-container {
   position: relative;
+  width: 100%;
+  max-width: 300px;
+  height: 50px;
+  padding-right: 55px;
   background: #1f2937;
   border: 3px solid #2e3846;
-  height: 55px;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 15px;
-  padding-right: 55px;
+  box-sizing: border-box;
 }
 
 .pokeball-btn {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   position: absolute;
   right: 3px;
   cursor: pointer;
@@ -169,13 +187,27 @@ i {
   font-size: 2em;
 }
 
+/* Navigation Buttons Above Image */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.navigation-buttons button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 8px 12px;
+  font-size: 1rem;
+}
+
 /* Animations */
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-/* Shake animation for empty search */
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
@@ -187,4 +219,24 @@ i {
 .search-container.shake {
   border: 2px solid rgb(198, 27, 27);
   animation: shake 0.5s ease;
+}
+
+/* Responsive: Tablets and larger screens */
+@media (min-width: 600px) {
+  h4 {
+    font-size: 1.5em;
+  }
+
+  .card-info p {
+    font-size: 1.2em;
+  }
+
+  .pokemon-image {
+    max-width: 300px;
+  }
+
+  .navigation-buttons button {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
 }

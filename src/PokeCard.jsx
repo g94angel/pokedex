@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import Pokeball from "./Pokeball";
 
 export default class PokeCard extends Component {
-  // Helper method to build a formatted type string
+  // Format type string
   getTypeString(types) {
     return types
       .map(({ type }) => type.name.charAt(0).toUpperCase() + type.name.slice(1))
       .join(" | ");
   }
 
-  // Helper method to determine generation & region
+  // Determine generation & region
   getGenerationInfo(id) {
     if (id < 152) return { generation: "I", region: "Kanto", descNum: 0, genusNum: 7 };
     if (id < 252) return { generation: "II", region: "Johto", descNum: 0, genusNum: 7 };
@@ -39,33 +39,35 @@ export default class PokeCard extends Component {
 
     return (
       <div className="card-container">
-        <div className="carousel">
+        {/* Previous / Next Buttons Above Image */}
+        <div className="navigation-buttons">
           <button
             disabled={data.id <= 1}
             onClick={() => this.props.findPokemon(data.id - 1)}
-            className="navigate"
           >
             <i className="fa fa-thin fa-caret-left"></i>
           </button>
 
-          <div className="card-image">
-            <img className="pokemon-image" src={image} alt={data.name} />
-          </div>
-
           <button
             disabled={data.id >= 905}
             onClick={() => this.props.findPokemon(data.id + 1)}
-            className="navigate"
           >
             <i className="fa fa-thin fa-caret-right"></i>
           </button>
         </div>
 
+        {/* Pokemon Image */}
+        <div className="card-image">
+          <img className="pokemon-image" src={image} alt={data.name} />
+        </div>
+
+        {/* Details */}
         <div className="card-details">
           <div className="card-name">
             <h4>{nameFormatted}</h4>
-            {inCache && <Pokeball class="pokeball" />}
+            {inCache && <Pokeball className="pokeball" />}
           </div>
+
           <div className="card-info">
             {genus && <p>{`#${data.id} - The ${genus}`}</p>}
             <p>{`Generation ${generation} | ${region} region`}</p>
