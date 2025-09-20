@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import PokeCard from "./PokeCard";
 import Search from "./Search";
 import Title from "./Title";
 import Loader from "./Loader";
+import PokeCard from "./PokeCard";
 
 class App extends Component {
   state = {

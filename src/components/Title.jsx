@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PokemonLogo from "./images/pokemon-logo.png";
+import PokemonLogo from "../images/pokemon-logo.png";
 
 export default class Title extends Component {
   render() {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PokeballImg from "./images/pokeball.png";
+import PokeballImg from "../images/pokeball.png"
 
 export default class Loader extends Component {
   render() {
