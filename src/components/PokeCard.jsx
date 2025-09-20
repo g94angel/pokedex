@@ -9,6 +9,17 @@ export default class PokeCard extends Component {
       .join(" | ");
   }
 
+  // Play the Pokémon's battle cry
+  playCry = () => {
+    const { data } = this.props.state;
+    if (data?.cries?.latest) {
+      const audio = new Audio(data.cries.latest);
+      audio.play().catch((error) => {
+        console.error("Error playing audio:", error);
+      });
+    }
+  };
+
   // Determine generation & region
   getGenerationInfo(id) {
     if (id < 152) return { generation: "I", region: "Kanto", descNum: 0, genusNum: 7 };
@@ -37,6 +48,7 @@ export default class PokeCard extends Component {
       .replace(/\f/g, " ");
 
     const genus = speciesData.genera[genusNum]?.genus;
+    const hasCry = !!data?.cries?.latest;
 
     return (
       <div className="card-container">
@@ -81,7 +93,14 @@ export default class PokeCard extends Component {
         <div className="card-details">
           <div className="card-name">
             <h4>{nameFormatted}</h4>
-            {inCache && <Pokeball className="pokeball" />}
+            <button
+              onClick={this.playCry}
+              disabled={!hasCry}
+              className={inCache ? "play-cry-button-cached" : "play-cry-button"}
+              aria-label="Play battle cry"
+            >
+              <i className="fa fa-play-circle" aria-hidden="true"></i>
+            </button>
           </div>
 
           <div className="card-info">

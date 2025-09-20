@@ -43,8 +43,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  flex-wrap: wrap;
 }
 
 /* Card Info */
@@ -271,4 +269,70 @@ i {
   .navigate-right {
     right: 0;
   }
+}
+
+/* Base Play Button (non-cached) */
+.play-cry-button {
+  margin-top: 3px;
+  border: none; /* Override general button border */
+  cursor: pointer;
+  padding: 0; /* Remove padding for icon-only button */
+  background-color: transparent; /* Override general button background */
+  border-radius: 50%; /* Circular button */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.play-cry-button:hover:not(:disabled) {
+  background-color: #2e3846; /* Hover effect for non-cached */
+}
+
+.play-cry-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Cached Play Button */
+.play-cry-button-cached {
+  margin-top: 3px;
+  border: none; /* Override general button border */
+  cursor: pointer;
+  padding: 0; /* Remove padding */
+  background-color: transparent; /* Default transparent */
+  border-radius: 50%; /* Circular button */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-image 0.2s ease, opacity 0.2s ease;
+}
+
+.play-cry-button-cached:hover:not(:disabled) {
+  background-image: url("./src/images/pokeball.png");
+  background-size: 36px 36px; /* Match play icon size */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent; /* Keep transparent background */
+}
+
+.play-cry-button-cached:hover:not(:disabled) i {
+  opacity: 0; /* Hide play icon on hover for cached */
+}
+
+.play-cry-button-cached:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Play Icon Styling */
+.play-cry-button i,
+.play-cry-button-cached i {
+  font-size: 24px;
+  color: white; /* Visible on transparent background */
+  transition: opacity 0.2s ease; /* Smooth hide on hover */
 }
