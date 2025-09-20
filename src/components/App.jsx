@@ -28,8 +28,8 @@ class App extends Component {
 
   getSprite = (pokemonData) =>
     pokemonData.id <= 649
-      ? pokemonData.sprites.other.dream_world.front_default
-      : pokemonData.sprites.other["official-artwork"].front_default;
+      ? pokemonData.sprites.other["official-artwork"].front_default
+      : pokemonData.sprites.other.dream_world.front_default;
 
   handleError = () => {
     this.setState({ error: true, loaded: true, fromCache: false });

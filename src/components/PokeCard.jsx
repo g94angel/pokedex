@@ -12,8 +12,8 @@ export default class PokeCard extends Component {
   // Play the Pokémon's battle cry
   playCry = () => {
     const { data } = this.props.state;
-    if (data?.cries?.latest) {
-      const audio = new Audio(data.cries.latest);
+    if (data?.cries?.legacy) {
+      const audio = new Audio(data.cries.legacy);
       audio.play().catch((error) => {
         console.error("Error playing audio:", error);
       });
