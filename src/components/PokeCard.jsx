@@ -23,7 +23,8 @@ export default class PokeCard extends Component {
   }
 
   render() {
-    const { data, image, speciesData, inCache } = this.props.state;
+    const { data, image, speciesData } = this.props.state;
+    const { inCache } = this.props;
     const { generation, region, descNum, genusNum } = this.getGenerationInfo(data.id);
 
     const typeString = this.getTypeString(data.types);

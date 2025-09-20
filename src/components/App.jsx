@@ -14,8 +14,8 @@ class App extends Component {
     error: false,
     loaded: false,
     firstPokemon: 1,
-    cache: {},
-    inCache: false, // track if current Pokémon was seen before
+    cache: {}, // cache stores previous Pokémon data with ID keys
+    fromCache: false, // track if data was loaded from cache
   };
 
   componentDidMount() {
@@ -31,15 +31,13 @@ class App extends Component {
       ? pokemonData.sprites.other.dream_world.front_default
       : pokemonData.sprites.other["official-artwork"].front_default;
 
-  // Show error and recover after 2s
   handleError = () => {
-    this.setState({ error: true, loaded: true }); // stop loader
+    this.setState({ error: true, loaded: true, fromCache: false });
     setTimeout(this.recoverFromError, 2000);
   };
 
   recoverFromError = () => {
     const firstCachedKey = Object.keys(this.state.cache)[0];
-
     if (firstCachedKey) {
       const { data, speciesData, image } = this.state.cache[firstCachedKey];
       this.setState({
@@ -49,7 +47,7 @@ class App extends Component {
         speciesData,
         image,
         loaded: true,
-        inCache: true,
+        fromCache: true, // indicate data is from cache
       });
     } else {
       this.setState({
@@ -59,7 +57,7 @@ class App extends Component {
         speciesData: null,
         image: "",
         loaded: false,
-        inCache: false,
+        fromCache: false,
       });
     }
   };
@@ -71,13 +69,12 @@ class App extends Component {
     ]);
 
     const image = this.getSprite(pokemonRes.data);
-
     return { data: pokemonRes.data, speciesData: speciesRes.data, image };
   };
 
   findPokemon = async (searchData) => {
     const search = String(searchData).trim().toLowerCase();
-    this.setState({ loaded: false });
+    this.setState({ loaded: false, fromCache: false });
 
     if (!search) return this.handleError();
 
@@ -85,16 +82,19 @@ class App extends Component {
     if (!isNaN(searchNum) && (searchNum < 1 || searchNum > 905))
       return this.handleError();
 
-    // Check cache first
-    if (this.state.cache[search]) {
-      const { data, speciesData, image } = this.state.cache[search];
+    // Determine cache key (use searchNum if it's a valid number, else fetch to get ID)
+    const cacheKey = !isNaN(searchNum) ? searchNum : search;
+
+    // Check cache using ID (for numeric searches) or fetch for name-based searches
+    if (!isNaN(searchNum) && this.state.cache[cacheKey]) {
+      const { data, speciesData, image } = this.state.cache[cacheKey];
       this.setState({
         data,
         speciesData,
         image,
-        inCache: true,
         loaded: true,
         input: "",
+        fromCache: true, // indicate data is from cache
       });
       return;
     }
@@ -103,16 +103,19 @@ class App extends Component {
     try {
       const { data, speciesData, image } = await this.fetchPokemonData(search);
 
+      // Use Pokémon ID as the cache key
+      const finalCacheKey = data.id;
+
       this.setState((prevState) => ({
         data,
         speciesData,
         image,
-        inCache: false,
         loaded: true,
         input: "",
+        fromCache: !!prevState.cache[finalCacheKey], // check if it was already cached
         cache: {
           ...prevState.cache,
-          [search]: { data, speciesData, image, inCache: true },
+          [finalCacheKey]: { data, speciesData, image },
         },
       }));
     } catch (err) {
@@ -121,7 +124,10 @@ class App extends Component {
   };
 
   render() {
-    const { error, input, loaded } = this.state;
+    const { error, input, loaded, fromCache } = this.state;
+
+    // Use fromCache to indicate if the current Pokémon was loaded from cache
+    const inCache = fromCache;
 
     return (
       <div className="main-container">
@@ -139,7 +145,7 @@ class App extends Component {
         )}
 
         {loaded ? (
-          <PokeCard state={this.state} findPokemon={this.findPokemon} />
+          <PokeCard state={this.state} findPokemon={this.findPokemon} inCache={inCache} />
         ) : (
           <Loader />
         )}
