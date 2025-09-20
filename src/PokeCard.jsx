@@ -39,11 +39,31 @@ export default class PokeCard extends Component {
 
     return (
       <div className="card-container">
-        {/* Previous / Next Buttons Above Image */}
-        <div className="navigation-buttons">
+        <div className="card-image-container">
+          {/* Mobile buttons above image */}
+          <div className="navigation-buttons">
+            <button
+              disabled={data.id <= 1}
+              onClick={() => this.props.findPokemon(data.id - 1)}
+            >
+              <i className="fa fa-thin fa-caret-left"></i>
+            </button>
+            <button
+              disabled={data.id >= 905}
+              onClick={() => this.props.findPokemon(data.id + 1)}
+            >
+              <i className="fa fa-thin fa-caret-right"></i>
+            </button>
+          </div>
+
+          {/* Pokémon Image */}
+          <img className="pokemon-image" src={image} alt={data.name} />
+
+          {/* Desktop side buttons */}
           <button
             disabled={data.id <= 1}
             onClick={() => this.props.findPokemon(data.id - 1)}
+            className="navigate-left"
           >
             <i className="fa fa-thin fa-caret-left"></i>
           </button>
@@ -51,17 +71,12 @@ export default class PokeCard extends Component {
           <button
             disabled={data.id >= 905}
             onClick={() => this.props.findPokemon(data.id + 1)}
+            className="navigate-right"
           >
             <i className="fa fa-thin fa-caret-right"></i>
           </button>
         </div>
 
-        {/* Pokemon Image */}
-        <div className="card-image">
-          <img className="pokemon-image" src={image} alt={data.name} />
-        </div>
-
-        {/* Details */}
         <div className="card-details">
           <div className="card-name">
             <h4>{nameFormatted}</h4>
@@ -73,12 +88,10 @@ export default class PokeCard extends Component {
             <p>{`Generation ${generation} | ${region} region`}</p>
             <p>{typeString}</p>
             {speciesData.evolves_from_species && (
-              <p>
-                {`Evolves from ${
-                  speciesData.evolves_from_species.name.charAt(0).toUpperCase() +
-                  speciesData.evolves_from_species.name.slice(1)
-                }`}
-              </p>
+              <p>{`Evolves from ${
+                speciesData.evolves_from_species.name.charAt(0).toUpperCase() +
+                speciesData.evolves_from_species.name.slice(1)
+              }`}</p>
             )}
             <p>{bio}</p>
           </div>
