@@ -428,12 +428,6 @@ i {
     max-width: 100px;
   }
 
-  .search-container {
-    max-width: 100%;
-    height: 42px;
-    /* padding-right: 48px; */
-  }
-
   .pokeball-btn {
     width: 38px;
     height: 38px;
