@@ -47,15 +47,10 @@ export default class PokeCard extends Component {
   }
 
   componentDidMount() {
-    // Optional: Disable autoplay on mobile
-    // if (window.innerWidth > 400) {
-      this.playCry();
-    // }
+    this.playCry();
   }
 
   componentDidUpdate(prevProps) {
-    // Play cry when Pokémon changes
-    // if (window.innerWidth > 400 && prevProps.state.data?.id !== this.props.state.data?.id) {
     if (prevProps.state.data?.id !== this.props.state.data?.id) {
       this.playCry();
     }
@@ -131,7 +126,7 @@ export default class PokeCard extends Component {
             <h4>{nameFormatted}</h4>
             <button
               onClick={this.playCry}
-              onTouchStart={this.playCry} // Add touchstart for mobile
+              onTouchStart={this.playCry}
               disabled={!hasCry}
               className={inCache ? "play-cry-button-cached" : "play-cry-button"}
               aria-label="Play battle cry"
