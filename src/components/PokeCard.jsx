@@ -46,15 +46,15 @@ export default class PokeCard extends Component {
     return { generation: "VIII", region: "Galar", descNum: 0, genusNum: 4 };
   }
 
-  componentDidMount() {
-    this.playCry();
-  }
+  // componentDidMount() {
+  //   this.playCry();
+  // }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.state.data?.id !== this.props.state.data?.id) {
-      this.playCry();
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.state.data?.id !== this.props.state.data?.id) {
+  //     this.playCry();
+  //   }
+  // }
 
   componentWillUnmount() {
     // Clean up audio
