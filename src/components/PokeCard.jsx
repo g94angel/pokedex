@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import Pokeball from "./Pokeball";
 
 export default class PokeCard extends Component {
+  // Store audio object to reuse
+  audio = null;
+
   // Format type string
   getTypeString(types) {
     return types
@@ -12,11 +15,21 @@ export default class PokeCard extends Component {
   // Play the Pokémon's battle cry
   playCry = () => {
     const { data } = this.props.state;
-    if (data?.cries?.legacy) {
-      const audio = new Audio(data.cries.legacy);
-      audio.play().catch((error) => {
-        console.error("Error playing audio:", error);
-      });
+    if (data?.cries?.latest) {
+      try {
+        // Reuse audio object if exists, or create new
+        if (!this.audio) {
+          this.audio = new Audio(data.cries.latest);
+        }
+        this.audio.src = data.cries.latest; // Update src if Pokémon changes
+        this.audio.play().catch((error) => {
+          console.error(`Error playing audio for ${data.name}:`, error);
+        });
+      } catch (error) {
+        console.error(`Failed to initialize audio for ${data.name}:`, error);
+      }
+    } else {
+      console.warn(`No latest cry available for ${data.name}`);
     }
   };
 
@@ -31,6 +44,29 @@ export default class PokeCard extends Component {
     if (id < 810) return { generation: "VII", region: "Alola", descNum: 7, genusNum: 7 };
     if (id <= 898) return { generation: "VIII", region: "Galar", descNum: 7, genusNum: 7 };
     return { generation: "VIII", region: "Galar", descNum: 0, genusNum: 4 };
+  }
+
+  componentDidMount() {
+    // Optional: Disable autoplay on mobile
+    // if (window.innerWidth > 400) {
+      this.playCry();
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    // Play cry when Pokémon changes
+    // if (window.innerWidth > 400 && prevProps.state.data?.id !== this.props.state.data?.id) {
+    if (prevProps.state.data?.id !== this.props.state.data?.id) {
+      this.playCry();
+    }
+  }
+
+  componentWillUnmount() {
+    // Clean up audio
+    if (this.audio) {
+      this.audio.pause();
+      this.audio = null;
+    }
   }
 
   render() {
@@ -95,6 +131,7 @@ export default class PokeCard extends Component {
             <h4>{nameFormatted}</h4>
             <button
               onClick={this.playCry}
+              onTouchStart={this.playCry} // Add touchstart for mobile
               disabled={!hasCry}
               className={inCache ? "play-cry-button-cached" : "play-cry-button"}
               aria-label="Play battle cry"
