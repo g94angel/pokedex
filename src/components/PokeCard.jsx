@@ -2,8 +2,50 @@ import React, { Component } from "react";
 import Pokeball from "./Pokeball";
 
 export default class PokeCard extends Component {
-  // Store audio object to reuse
-  audio = null;
+  // Preloaded audio object (not played yet)
+  preloadedCry = null;
+
+  componentDidMount() {
+    this.preloadCry();
+  }
+
+  componentDidUpdate(prevProps) {
+    // Preload when Pokémon changes
+    if (prevProps.state.data?.id !== this.props.state.data?.id) {
+      this.preloadCry();
+    }
+  }
+
+  componentWillUnmount() {
+    // Clean up preloaded cry
+    if (this.preloadedCry) {
+      this.preloadedCry.pause();
+      this.preloadedCry = null;
+    }
+  }
+
+  preloadCry = () => {
+    const { data } = this.props.state;
+    if (!data?.cries?.latest) {
+      this.preloadedCry = null;
+      return;
+    }
+
+    // Create and preload the audio element
+    this.preloadedCry = new Audio(data.cries.latest);
+    this.preloadedCry.preload = "auto";
+    this.preloadedCry.load();
+  };
+
+  playCry = () => {
+    if (!this.preloadedCry) return;
+
+    // Reset playback position and play
+    this.preloadedCry.currentTime = 0;
+    this.preloadedCry.play().catch((err) => {
+      console.error(`Could not play cry:`, err);
+    });
+  };
 
   // Format type string
   getTypeString(types) {
@@ -11,27 +53,6 @@ export default class PokeCard extends Component {
       .map(({ type }) => type.name.charAt(0).toUpperCase() + type.name.slice(1))
       .join(" | ");
   }
-
-  // Play the Pokémon's battle cry
-  playCry = () => {
-    const { data } = this.props.state;
-    if (data?.cries?.latest) {
-      try {
-        // Reuse audio object if exists, or create new
-        if (!this.audio) {
-          this.audio = new Audio(data.cries.latest);
-        }
-        this.audio.src = data.cries.latest; // Update src if Pokémon changes
-        this.audio.play().catch((error) => {
-          console.error(`Error playing audio for ${data.name}:`, error);
-        });
-      } catch (error) {
-        console.error(`Failed to initialize audio for ${data.name}:`, error);
-      }
-    } else {
-      console.warn(`No latest cry available for ${data.name}`);
-    }
-  };
 
   // Determine generation & region
   getGenerationInfo(id) {
@@ -44,24 +65,6 @@ export default class PokeCard extends Component {
     if (id < 810) return { generation: "VII", region: "Alola", descNum: 7, genusNum: 7 };
     if (id <= 898) return { generation: "VIII", region: "Galar", descNum: 7, genusNum: 7 };
     return { generation: "VIII", region: "Galar", descNum: 0, genusNum: 4 };
-  }
-
-  // componentDidMount() {
-  //   this.playCry();
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.state.data?.id !== this.props.state.data?.id) {
-  //     this.playCry();
-  //   }
-  // }
-
-  componentWillUnmount() {
-    // Clean up audio
-    if (this.audio) {
-      this.audio.pause();
-      this.audio = null;
-    }
   }
 
   render() {
@@ -126,7 +129,6 @@ export default class PokeCard extends Component {
             <h4>{nameFormatted}</h4>
             <button
               onClick={this.playCry}
-              onTouchStart={this.playCry}
               disabled={!hasCry}
               className={inCache ? "play-cry-button-cached" : "play-cry-button"}
               aria-label="Play battle cry"
@@ -138,7 +140,7 @@ export default class PokeCard extends Component {
           <div className="card-info">
             {genus && <p>{`#${data.id} - The ${genus}`}</p>}
             <p>{`Generation ${generation} | ${region} region`}</p>
-            <p>{typeString}</p>
+            <p>{`Type: ${typeString}`}</p>
             {speciesData.evolves_from_species && (
               <p>{`Evolves from ${
                 speciesData.evolves_from_species.name.charAt(0).toUpperCase() +
