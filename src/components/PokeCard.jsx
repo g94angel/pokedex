@@ -113,7 +113,6 @@ export default class PokeCard extends Component {
         
 
         <div className="card-details">
-          <div className="class-header">
           <div className="card-name">
             <h4>{nameFormatted}</h4>
           </div>
@@ -127,7 +126,6 @@ export default class PokeCard extends Component {
                 <i className="fa fa-play-circle" aria-hidden="true"></i>
               </button>
           </div> */}
-          </div>
           <div className="navigation-buttons">
             <button
               disabled={data.id <= 1}
