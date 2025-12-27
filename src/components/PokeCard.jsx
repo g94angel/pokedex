@@ -88,20 +88,7 @@ export default class PokeCard extends Component {
       <div className="card-container">
         <div className="card-image-container">
           {/* Mobile buttons above image */}
-          <div className="navigation-buttons">
-            <button
-              disabled={data.id <= 1}
-              onClick={() => this.props.findPokemon(data.id - 1)}
-            >
-              <i className="fa fa-thin fa-caret-left"></i>
-            </button>
-            <button
-              disabled={data.id >= 905}
-              onClick={() => this.props.findPokemon(data.id + 1)}
-            >
-              <i className="fa fa-thin fa-caret-right"></i>
-            </button>
-          </div>
+          
 
           {/* Pokémon Image */}
           <img className="pokemon-image" src={image} alt={data.name} />
@@ -123,17 +110,36 @@ export default class PokeCard extends Component {
             <i className="fa fa-thin fa-caret-right"></i>
           </button>
         </div>
+        
 
         <div className="card-details">
+          <div className="class-header">
           <div className="card-name">
             <h4>{nameFormatted}</h4>
+          </div>
+          {/* <div>
             <button
-              onClick={this.playCry}
-              disabled={!hasCry}
-              className={inCache ? "play-cry-button-cached" : "play-cry-button"}
-              aria-label="Play battle cry"
+                onClick={this.playCry}
+                disabled={!hasCry}
+                className={inCache ? "play-cry-button-cached" : "play-cry-button"}
+                aria-label="Play battle cry"
+              >
+                <i className="fa fa-play-circle" aria-hidden="true"></i>
+              </button>
+          </div> */}
+          </div>
+          <div className="navigation-buttons">
+            <button
+              disabled={data.id <= 1}
+              onClick={() => this.props.findPokemon(data.id - 1)}
             >
-              <i className="fa fa-play-circle" aria-hidden="true"></i>
+              <i className="fa fa-thin fa-caret-left"></i>
+            </button>
+            <button
+              disabled={data.id >= 905}
+              onClick={() => this.props.findPokemon(data.id + 1)}
+            >
+              <i className="fa fa-thin fa-caret-right"></i>
             </button>
           </div>
 
