@@ -54,7 +54,7 @@ body {
   align-items: center;
   gap: 0.45rem;
   position: static;
-  padding: 1rem 0;
+  padding: 0.25rem 0;
 }
 
 .logo {
