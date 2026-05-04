@@ -390,6 +390,14 @@ button:disabled {
   padding: 0;
 }
 
+.cry-notice {
+  margin: 0.2rem 0 0;
+  font-size: 0.74rem;
+  line-height: 1.35;
+  color: #fca5a5;
+  text-align: center;
+}
+
 .fav-sprite {
   width: 1.8rem;
   height: 1.8rem;

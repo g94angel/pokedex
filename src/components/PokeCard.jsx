@@ -24,9 +24,11 @@ const TYPE_COLORS = {
 };
 
 export default class PokeCard extends Component {
-  state = { shiny: false };
+  state = { shiny: false, cryError: false };
 
   preloadedCry = null;
+
+  crySources = [];
 
   componentDidMount() {
     this.preloadCry();
@@ -34,7 +36,7 @@ export default class PokeCard extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.state.data?.id !== this.props.state.data?.id) {
-      this.setState({ shiny: false });
+      this.setState({ shiny: false, cryError: false });
       this.preloadCry();
     }
   }
@@ -48,21 +50,72 @@ export default class PokeCard extends Component {
 
   preloadCry = () => {
     const { data } = this.props.state;
-    if (!data?.cries?.latest) {
+    this.crySources = this.getCrySources(data);
+    const preloadSource = this.getPreferredCrySource(this.crySources);
+    if (!preloadSource) {
       this.preloadedCry = null;
       return;
     }
-    this.preloadedCry = new Audio(data.cries.latest);
+    this.preloadedCry = new Audio(preloadSource);
     this.preloadedCry.preload = 'auto';
     this.preloadedCry.load();
   };
 
-  playCry = () => {
-    if (!this.preloadedCry) return;
-    this.preloadedCry.currentTime = 0;
-    this.preloadedCry
-      .play()
-      .catch((err) => console.error('Could not play cry:', err));
+  getCrySources = (data) => {
+    if (!data) return [];
+    const sources = [
+      data.cries?.latest,
+      data.cries?.legacy,
+      data.name
+        ? `https://play.pokemonshowdown.com/audio/cries/${data.name}.mp3`
+        : null,
+    ].filter(Boolean);
+    return Array.from(new Set(sources));
+  };
+
+  getPreferredCrySource = (sources) => {
+    if (!sources.length) return null;
+    const audioElement = globalThis.document?.createElement?.('audio');
+    const canPlayOgg = audioElement?.canPlayType?.('audio/ogg; codecs=vorbis');
+    if (!canPlayOgg) {
+      const nonOggSource = sources.find((source) => !source.endsWith('.ogg'));
+      if (nonOggSource) return nonOggSource;
+    }
+    return sources[0];
+  };
+
+  playCry = async () => {
+    if (!this.crySources.length) return;
+
+    const attemptedSources = [
+      this.preloadedCry?.src || null,
+      ...this.crySources,
+    ].filter(Boolean);
+    const sourcesToTry = Array.from(new Set(attemptedSources));
+
+    let lastError = null;
+    for (const source of sourcesToTry) {
+      const audio =
+        this.preloadedCry?.src === source
+          ? this.preloadedCry
+          : new Audio(source);
+      try {
+        audio.currentTime = 0;
+        await audio.play();
+        this.preloadedCry = audio;
+        if (this.state.cryError) {
+          this.setState({ cryError: false });
+        }
+        return;
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    if (lastError) {
+      this.setState({ cryError: true });
+      console.error('Could not play cry:', lastError);
+    }
   };
 
   toggleShiny = () => this.setState((prev) => ({ shiny: !prev.shiny }));
@@ -110,7 +163,7 @@ export default class PokeCard extends Component {
   render() {
     const { data, image, speciesData, evoData, party } = this.props.state;
     const { findPokemon, onPartyToggle } = this.props;
-    const { shiny } = this.state;
+    const { shiny, cryError } = this.state;
 
     const { generation, region } = this.getGenerationInfo(data.id);
     const nameFormatted = this.capitalize(data.name);
@@ -143,7 +196,7 @@ export default class PokeCard extends Component {
     const genus = speciesData.genera.find(
       (g) => g.language.name === 'en',
     )?.genus;
-    const hasCry = !!data?.cries?.latest;
+    const hasCry = this.getCrySources(data).length > 0;
 
     const height = (data.height / 10).toFixed(1);
     const weight = (data.weight / 10).toFixed(1);
@@ -222,6 +275,12 @@ export default class PokeCard extends Component {
                 <i className="fa fa-thin fa-caret-right"></i>
               </button>
             </div>
+
+            {cryError && (
+              <p className="cry-notice" role="status" aria-live="polite">
+                Cry unavailable on this device.
+              </p>
+            )}
           </div>
 
           <div className="card-info">

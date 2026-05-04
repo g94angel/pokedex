@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import PokeCard from '../PokeCard';
 
@@ -168,17 +168,115 @@ describe('PokeCard behavior', () => {
         ...buildProps().state,
         data: {
           ...buildProps().state.data,
-          cries: { latest: 'https://example.com/cry.mp3' },
+          name: '',
+          cries: {
+            latest: 'https://example.com/cry.mp3',
+            legacy: null,
+          },
         },
       },
     });
     const { getByRole } = render(<PokeCard {...props} />);
 
     fireEvent.click(getByRole('button', { name: /play battle cry/i }));
+
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalled();
+    });
+    expect(
+      await screen.findByText(/cry unavailable on this device/i),
+    ).toBeInTheDocument();
+    consoleSpy.mockRestore();
+  });
+
+  it('falls back to alternate cry source when first source fails', async () => {
+    const firstAudio = {
+      src: 'https://example.com/cry.ogg',
+      pause: vi.fn(),
+      load: vi.fn(),
+      play: vi.fn().mockRejectedValue(new Error('unsupported format')),
+      currentTime: 0,
+    };
+    const secondAudio = {
+      src: 'https://play.pokemonshowdown.com/audio/cries/dragonair.mp3',
+      pause: vi.fn(),
+      load: vi.fn(),
+      play: vi.fn().mockResolvedValue(),
+      currentTime: 0,
+    };
+
+    const AudioMock = vi
+      .fn()
+      .mockImplementationOnce(function AudioCtor() {
+        return firstAudio;
+      })
+      .mockImplementationOnce(function AudioCtor() {
+        return secondAudio;
+      });
+    vi.stubGlobal('Audio', AudioMock);
+
+    const props = buildProps({
+      state: {
+        ...buildProps().state,
+        data: {
+          ...buildProps().state.data,
+          cries: {
+            latest: 'https://example.com/cry.ogg',
+            legacy: 'https://example.com/cry-legacy.ogg',
+          },
+        },
+      },
+    });
+
+    const { getByRole } = render(<PokeCard {...props} />);
+    fireEvent.click(getByRole('button', { name: /play battle cry/i }));
+
+    await Promise.resolve();
     await Promise.resolve();
 
-    expect(consoleSpy).toHaveBeenCalled();
-    consoleSpy.mockRestore();
+    expect(firstAudio.play).toHaveBeenCalled();
+    expect(secondAudio.play).toHaveBeenCalled();
+  });
+
+  it('clears cry warning after a later successful playback', async () => {
+    const firstAudio = {
+      src: 'https://example.com/cry.ogg',
+      pause: vi.fn(),
+      load: vi.fn(),
+      play: vi
+        .fn()
+        .mockRejectedValueOnce(new Error('blocked'))
+        .mockResolvedValueOnce(),
+      currentTime: 0,
+    };
+    const AudioMock = vi.fn(function AudioCtor() {
+      return firstAudio;
+    });
+    vi.stubGlobal('Audio', AudioMock);
+
+    const props = buildProps({
+      state: {
+        ...buildProps().state,
+        data: {
+          ...buildProps().state.data,
+          name: '',
+          cries: { latest: 'https://example.com/cry.ogg', legacy: null },
+        },
+      },
+    });
+    const { getByRole } = render(<PokeCard {...props} />);
+
+    fireEvent.click(getByRole('button', { name: /play battle cry/i }));
+    expect(
+      await screen.findByText(/cry unavailable on this device/i),
+    ).toBeInTheDocument();
+
+    fireEvent.click(getByRole('button', { name: /play battle cry/i }));
+    await waitFor(() => {
+      expect(
+        screen.queryByText(/cry unavailable on this device/i),
+      ).not.toBeInTheDocument();
+    });
   });
 
   it('resets shiny state when pokemon id changes', () => {
