@@ -20,7 +20,8 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
   font-size: 16px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #root {
@@ -30,8 +31,8 @@ body {
 .main-container {
   width: min(100%, 78rem);
   margin: 0 auto;
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   padding: max(1rem, env(safe-area-inset-top)) 0.875rem
     calc(0.9rem + env(safe-area-inset-bottom));
   display: flex;
@@ -39,7 +40,7 @@ body {
   align-items: center;
   gap: 0.55rem;
   text-align: center;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .top-shell {
@@ -198,8 +199,8 @@ button:disabled {
   background: rgba(17, 24, 39, 0.88);
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
   text-align: left;
-  max-height: 5.2rem;
-  overflow: auto;
+  max-height: none;
+  overflow: visible;
 }
 
 .search-loading-indicator {
@@ -279,9 +280,9 @@ button:disabled {
 
 .suggestion-list {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 0.45rem;
-  overflow-x: auto;
+  overflow: visible;
   padding-bottom: 0.1rem;
 }
 
