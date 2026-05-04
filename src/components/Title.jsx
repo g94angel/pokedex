@@ -1,8 +1,6 @@
-import React, { Component } from "react";
-import PokemonLogo from "../images/pokemon-logo.png";
+import React from 'react';
+import PokemonLogo from '../images/pokemon-logo.png';
 
-export default class Title extends Component {
-  render() {
-    return <img className="logo" src={PokemonLogo} alt="pokemon-logo" />;
-  }
+export default function Title() {
+  return <img className="logo" src={PokemonLogo} alt="pokemon-logo" />;
 }
