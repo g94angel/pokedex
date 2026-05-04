@@ -100,7 +100,6 @@ export default class Search extends Component {
       onSuggestionSelect,
       onClearRecentSearches,
       isSearching,
-      pendingSearch,
       pendingPartyAdd,
       recentSearches,
       suggestions,
@@ -186,18 +185,7 @@ export default class Search extends Component {
                   onClick={() => onSuggestionSelect(name)}
                   disabled={isSearching}
                 >
-                  {pendingSearch === name && isSearching ? (
-                    <>
-                      <img
-                        className="chip-loading-ball"
-                        src={PokeballImg}
-                        alt="Loading"
-                      />
-                      <span>{formatPokemonDisplayName(name)}</span>
-                    </>
-                  ) : (
-                    formatPokemonDisplayName(name)
-                  )}
+                  {formatPokemonDisplayName(name)}
                 </button>
               ))}
             </div>
@@ -324,7 +312,6 @@ Search.propTypes = {
   onClearSearch: PropTypes.func.isRequired,
   onClearRecentSearches: PropTypes.func.isRequired,
   isSearching: PropTypes.bool.isRequired,
-  pendingSearch: PropTypes.string.isRequired,
   recentSearches: PropTypes.arrayOf(PropTypes.string).isRequired,
   suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
   formatPokemonDisplayName: PropTypes.func.isRequired,
