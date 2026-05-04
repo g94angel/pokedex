@@ -51,7 +51,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 20;
-  padding: 1rem;
+  padding: 1rem 0;
   background: linear-gradient(
     180deg,
     rgba(31, 41, 55, 0.97) 0%,
@@ -263,6 +263,14 @@ button:disabled {
   padding-bottom: 0.1rem;
 }
 
+.party-list .suggestion-chip {
+  width: 100%;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .suggestion-list {
   display: flex;
   flex-wrap: nowrap;
@@ -308,6 +316,7 @@ button:disabled {
 .party-slot {
   position: relative;
   display: flex;
+  min-width: 0;
   align-items: center;
   justify-content: center;
 }
@@ -341,10 +350,11 @@ button:disabled {
   height: 1.1rem;
   padding: 0;
   border-radius: 50%;
-  background: #ef4444;
+  background: #b91c1c;
   border-color: transparent;
   color: #fff;
-  font-size: 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
   line-height: 1;
   display: flex;
   align-items: center;
