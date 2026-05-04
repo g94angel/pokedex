@@ -367,4 +367,116 @@ describe('PokeCard behavior', () => {
     expect(card.formatStatName('special-defense')).toBe('Sp. Def');
     expect(card.formatStatName('accuracy')).toBe('accuracy');
   });
+
+  it('skips cry preload when Audio constructor is not a function', () => {
+    vi.stubGlobal('Audio', undefined);
+    const props = buildProps();
+    expect(() => render(<PokeCard {...props} />)).not.toThrow();
+  });
+
+  it('skips cry preload when no cry sources are available', () => {
+    const props = buildProps({
+      state: {
+        ...buildProps().state,
+        data: {
+          ...buildProps().state.data,
+          name: '',
+          cries: { latest: null, legacy: null },
+        },
+      },
+    });
+    render(<PokeCard {...props} />);
+    expect(loadMock).not.toHaveBeenCalled();
+  });
+
+  it('resets cryUnavailable to false when cry succeeds after being marked unavailable', async () => {
+    const card = new PokeCard(buildProps());
+    card.state = { cryUnavailable: false };
+    card.crySources = ['cry.mp3'];
+    const mockAudio = {
+      src: 'cry.mp3',
+      currentTime: 0,
+      play: vi.fn().mockImplementation(async () => {
+        card.state = { ...card.state, cryUnavailable: true };
+      }),
+    };
+    card.preloadedCry = mockAudio;
+    card.setState = vi.fn((update) => {
+      const patch = typeof update === 'function' ? update(card.state) : update;
+      card.state = { ...card.state, ...patch };
+    });
+
+    await card.playCry();
+
+    expect(card.state.cryUnavailable).toBe(false);
+  });
+
+  it('calls onPartyToggle with pokemon id when party button is clicked', () => {
+    const props = buildProps();
+    render(<PokeCard {...props} />);
+    fireEvent.click(screen.getByRole('button', { name: /add to party/i }));
+    expect(props.onPartyToggle).toHaveBeenCalledWith(149);
+  });
+
+  it('getCrySources returns empty array when data is null', () => {
+    const card = new PokeCard(buildProps());
+    expect(card.getCrySources(null)).toEqual([]);
+  });
+
+  it('playCry returns early when cryUnavailable is already true', async () => {
+    const card = new PokeCard(buildProps());
+    card.state = { cryUnavailable: true };
+    card.crySources = ['cry.mp3'];
+    card.setState = vi.fn();
+    await card.playCry();
+    expect(card.setState).not.toHaveBeenCalled();
+  });
+
+  it('playCry skips setState when sourcesToTry resolves to empty', async () => {
+    const card = new PokeCard(buildProps());
+    card.state = { cryUnavailable: false };
+    card.crySources = [''];
+    card.preloadedCry = null;
+    card.setState = vi.fn();
+    await card.playCry();
+    expect(card.setState).not.toHaveBeenCalled();
+  });
+
+  it('renders correctly when party prop is null', () => {
+    const props = buildProps();
+    props.state = { ...props.state, party: null };
+    expect(() => render(<PokeCard {...props} />)).not.toThrow();
+  });
+
+  it('falls back to front_shiny when official-artwork sprite is unavailable', () => {
+    const props = buildProps({
+      state: {
+        ...buildProps().state,
+        data: {
+          ...buildProps().state.data,
+          sprites: {
+            front_default: 'front.png',
+            front_shiny: 'shiny.png',
+            other: {},
+          },
+        },
+      },
+    });
+    const { container } = render(<PokeCard {...props} />);
+    expect(container.querySelector('.pokemon-image')).toBeInTheDocument();
+  });
+
+  it('falls back to default color for unknown pokemon type', () => {
+    const props = buildProps({
+      state: {
+        ...buildProps().state,
+        data: {
+          ...buildProps().state.data,
+          types: [{ type: { name: 'shadow' } }],
+        },
+      },
+    });
+    const { container } = render(<PokeCard {...props} />);
+    expect(container.querySelector('.card-container')).toBeInTheDocument();
+  });
 });

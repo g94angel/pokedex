@@ -103,4 +103,34 @@ describe('Search keyboard interactions', () => {
     expect(search.state.activeSuggestionIndex).toBe(-1);
     expect(focus).toHaveBeenCalledTimes(1);
   });
+
+  it('ignores irrelevant key presses without side effects', () => {
+    const search = createSearchInstance({ suggestions: ['pikachu'] });
+    const origIndex = search.state.activeSuggestionIndex;
+
+    search.handleKeyDown({ key: 'Tab', preventDefault: vi.fn() });
+
+    expect(search.state.activeSuggestionIndex).toBe(origIndex);
+  });
+
+  it('triggerShake sets and resets shake state after timeout', () => {
+    vi.useFakeTimers();
+    const search = createSearchInstance();
+
+    search.triggerShake();
+    expect(search.state.shake).toBe(true);
+
+    vi.runAllTimers();
+    expect(search.state.shake).toBe(false);
+
+    vi.useRealTimers();
+  });
+
+  it('handleClearSearch works when inputRef has no current element', () => {
+    const onClearSearch = vi.fn();
+    const search = createSearchInstance({ onClearSearch });
+    // inputRef.current is null by default (React.createRef().current = null)
+    search.handleClearSearch();
+    expect(onClearSearch).toHaveBeenCalledTimes(1);
+  });
 });

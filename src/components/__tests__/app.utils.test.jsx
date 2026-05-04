@@ -16,8 +16,18 @@ describe('App utilities and interactions', () => {
     const app = createAppWithSyncState();
 
     expect(app.formatPokemonDisplayName('mr-mime')).toBe('Mr. Mime');
+    expect(app.formatPokemonDisplayName('mr-rime')).toBe('Mr. Rime');
+    expect(app.formatPokemonDisplayName('mime-jr')).toBe('Mime Jr.');
     expect(app.formatPokemonDisplayName('type-null')).toBe('Type: Null');
+    expect(app.formatPokemonDisplayName('ho-oh')).toBe('Ho-Oh');
+    expect(app.formatPokemonDisplayName('porygon-z')).toBe('Porygon-Z');
+    expect(app.formatPokemonDisplayName('jangmo-o')).toBe('Jangmo-o');
+    expect(app.formatPokemonDisplayName('hakamo-o')).toBe('Hakamo-o');
+    expect(app.formatPokemonDisplayName('kommo-o')).toBe('Kommo-o');
+    expect(app.formatPokemonDisplayName('nidoran-f')).toBe('Nidoran\u2640');
+    expect(app.formatPokemonDisplayName('nidoran-m')).toBe('Nidoran\u2642');
     expect(app.formatPokemonDisplayName('great-tusk')).toBe('Great Tusk');
+    expect(app.formatPokemonDisplayName('x-scissor')).toBe('X Scissor');
     expect(app.formatPokemonDisplayName('')).toBe('');
   });
 
@@ -91,6 +101,21 @@ describe('App utilities and interactions', () => {
 
     app.handleKeyboardNav({ key: 'ArrowRight', target: { tagName: 'DIV' } });
     expect(app.findPokemon).toHaveBeenCalledWith(251, 'navigation');
+
+    // Boundary: ArrowRight at max id does not navigate further
+    app.state = { ...app.state, data: { id: 1025 } };
+    app.handleKeyboardNav({ key: 'ArrowRight', target: { tagName: 'DIV' } });
+    expect(app.findPokemon).toHaveBeenCalledTimes(2);
+
+    // Boundary: ArrowLeft at min id does not navigate further
+    app.state = { ...app.state, data: { id: 1 } };
+    app.handleKeyboardNav({ key: 'ArrowLeft', target: { tagName: 'DIV' } });
+    expect(app.findPokemon).toHaveBeenCalledTimes(2);
+
+    // Not loaded: early return
+    app.state = { ...app.state, loaded: false, data: null };
+    app.handleKeyboardNav({ key: 'ArrowLeft', target: { tagName: 'DIV' } });
+    expect(app.findPokemon).toHaveBeenCalledTimes(2);
   });
 
   it('uses random source when selecting a random pokemon', () => {
@@ -125,6 +150,28 @@ describe('App utilities and interactions', () => {
     fetchMock.mockRestore();
   });
 
+  it('fetchPokemonIndex sets empty suggestions when input is blank', async () => {
+    const app = createAppWithSyncState();
+    // input stays '' (default)
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ results: [{ name: 'pikachu' }] }),
+    });
+
+    await app.fetchPokemonIndex();
+    expect(app.state.searchSuggestions).toEqual([]);
+
+    fetchMock.mockRestore();
+  });
+
+  it('levenshteinDistance handles equal strings and empty inputs', () => {
+    const app = createAppWithSyncState();
+
+    expect(app.levenshteinDistance('abc', 'abc')).toBe(0);
+    expect(app.levenshteinDistance('', 'abc')).toBe(3);
+    expect(app.levenshteinDistance('abc', '')).toBe(3);
+  });
+
   it('swallows pokemon index fetch errors without crashing', async () => {
     const app = createAppWithSyncState();
     const fetchMock = vi
@@ -134,5 +181,24 @@ describe('App utilities and interactions', () => {
     await expect(app.fetchPokemonIndex()).resolves.toBeUndefined();
 
     fetchMock.mockRestore();
+  });
+
+  it('swallows pokemon index fetch when response is not ok', async () => {
+    const app = createAppWithSyncState();
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue({ ok: false });
+
+    await expect(app.fetchPokemonIndex()).resolves.toBeUndefined();
+
+    fetchMock.mockRestore();
+  });
+
+  it('getSearchSuggestions breaks score ties alphabetically', () => {
+    const app = createAppWithSyncState();
+    const source = ['caaa', 'baaa'];
+    const result = app.getSearchSuggestions('aaa', source);
+    expect(result[0]).toBe('baaa');
+    expect(result[1]).toBe('caaa');
   });
 });

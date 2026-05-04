@@ -100,4 +100,16 @@ describe('App behavior', () => {
     expect(app.state.pendingPartyAdd).toBeNull();
     expect(app.state.party).toEqual([1, 2, 3, 4, 5, 6]);
   });
+
+  it('handlePartyRelease uses released list directly when no pendingPartyAdd', () => {
+    const app = createAppWithSyncState();
+    app.state = {
+      ...app.state,
+      party: [1, 2, 3, 4, 5],
+      pendingPartyAdd: null,
+    };
+    app.handlePartyRelease(3);
+    expect(app.state.party).toEqual([1, 2, 4, 5]);
+    expect(app.state.pendingPartyAdd).toBeNull();
+  });
 });

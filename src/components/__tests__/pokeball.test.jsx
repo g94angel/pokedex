@@ -37,4 +37,18 @@ describe('Pokeball', () => {
     expect(onEmptySearch).toHaveBeenCalledTimes(1);
     expect(findPokemon).not.toHaveBeenCalled();
   });
+
+  it('does nothing when input is empty and onEmptySearch is not provided', () => {
+    const findPokemon = vi.fn();
+    render(<Pokeball findPokemon={findPokemon} input="" />);
+    fireEvent.click(screen.getByRole('button', { name: /search pokemon/i }));
+    expect(findPokemon).not.toHaveBeenCalled();
+  });
+
+  it('does not error when input has text but findPokemon is not provided', () => {
+    expect(() => {
+      render(<Pokeball input="pikachu" />);
+      fireEvent.click(screen.getByRole('button', { name: /search pokemon/i }));
+    }).not.toThrow();
+  });
 });
