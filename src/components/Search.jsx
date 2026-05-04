@@ -241,8 +241,8 @@ export default class Search extends Component {
                   {formatPokemonDisplayName(
                     pokemonIndex[pendingPartyAdd - 1] || `#${pendingPartyAdd}`,
                   )}
-                </strong>{' '}
-                .
+                </strong>
+                {'.'}
               </p>
             )}
             <div className="party-list">
