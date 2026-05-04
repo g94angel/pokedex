@@ -7,7 +7,7 @@ export default function Pokeball({
   onEmptySearch,
   className,
 }) {
-  const handleClick = () => {
+  const handleSearch = () => {
     if (!input) {
       if (onEmptySearch) onEmptySearch();
       return;
@@ -16,11 +16,14 @@ export default function Pokeball({
   };
 
   return (
-    <img
-      onClick={handleClick}
+    <button
+      type="button"
       className={className}
-      src={PokeballImg}
-      alt="pokeball"
-    />
+      onClick={handleSearch}
+      aria-label="Search Pokemon"
+      title="Search Pokemon"
+    >
+      <img src={PokeballImg} alt="" aria-hidden="true" />
+    </button>
   );
 }

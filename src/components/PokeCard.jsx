@@ -119,6 +119,15 @@ export default class PokeCard extends Component {
 
     const inParty = party?.includes(data.id);
     const partyFull = (party?.length ?? 0) >= 6;
+    let partyAriaLabel = 'Add to party';
+    let partyTitle = `Add to party (${party?.length ?? 0}/6)`;
+    if (inParty) {
+      partyAriaLabel = 'Remove from party';
+      partyTitle = 'Remove from party';
+    } else if (partyFull) {
+      partyAriaLabel = 'Party full - release one first';
+      partyTitle = 'Party full!';
+    }
 
     const escapedName = data.name.replaceAll(
       /[-/\\^$*+?.()|[\]{}]/g,
@@ -187,20 +196,8 @@ export default class PokeCard extends Component {
               <button
                 onClick={() => onPartyToggle(data.id)}
                 className={`action-button party-ball-btn${inParty ? ' in-party' : ''}${!inParty && partyFull ? ' party-full' : ''}`}
-                aria-label={
-                  inParty
-                    ? 'Remove from party'
-                    : partyFull
-                      ? 'Party full – release one first'
-                      : 'Add to party'
-                }
-                title={
-                  inParty
-                    ? 'Remove from party'
-                    : partyFull
-                      ? 'Party full!'
-                      : `Add to party (${party?.length ?? 0}/6)`
-                }
+                aria-label={partyAriaLabel}
+                title={partyTitle}
               >
                 <img
                   src={PokeballImg}
