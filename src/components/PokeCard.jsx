@@ -214,13 +214,13 @@ export default class PokeCard extends Component {
             <div className="navigation-buttons">
               <button
                 disabled={data.id <= 1}
-                onClick={() => findPokemon(data.id - 1)}
+                onClick={() => findPokemon(data.id - 1, 'navigation')}
               >
                 <i className="fa fa-thin fa-caret-left"></i>
               </button>
               <button
                 disabled={data.id >= 1025}
-                onClick={() => findPokemon(data.id + 1)}
+                onClick={() => findPokemon(data.id + 1, 'navigation')}
               >
                 <i className="fa fa-thin fa-caret-right"></i>
               </button>
@@ -241,7 +241,9 @@ export default class PokeCard extends Component {
                       type="button"
                       className={`evo-link${name === data.name ? ' evo-current' : ''}`}
                       disabled={name === data.name}
-                      onClick={() => name !== data.name && findPokemon(name)}
+                      onClick={() =>
+                        name !== data.name && findPokemon(name, 'evolution')
+                      }
                     >
                       {this.capitalize(name)}
                     </button>

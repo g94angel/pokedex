@@ -12,7 +12,7 @@ export default function Pokeball({
       if (onEmptySearch) onEmptySearch();
       return;
     }
-    if (findPokemon) findPokemon(input.toLowerCase());
+    if (findPokemon) findPokemon(input.toLowerCase(), 'manual');
   };
 
   return (

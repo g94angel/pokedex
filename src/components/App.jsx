@@ -30,7 +30,7 @@ class App extends Component {
   componentDidMount() {
     const params = new URLSearchParams(globalThis.location.search);
     const pokemonParam = params.get('pokemon');
-    this.findPokemon(pokemonParam || 1);
+    this.findPokemon(pokemonParam || 1, 'initial');
     this.fetchPokemonIndex();
     globalThis.addEventListener('keydown', this.handleKeyboardNav);
   }
@@ -44,9 +44,10 @@ class App extends Component {
     if (e.target.tagName === 'INPUT') return;
     const { data, loaded } = this.state;
     if (!loaded || !data) return;
-    if (e.key === 'ArrowLeft' && data.id > 1) this.findPokemon(data.id - 1);
+    if (e.key === 'ArrowLeft' && data.id > 1)
+      this.findPokemon(data.id - 1, 'navigation');
     else if (e.key === 'ArrowRight' && data.id < 1025)
-      this.findPokemon(data.id + 1);
+      this.findPokemon(data.id + 1, 'navigation');
   };
 
   handleChange = (e) => {
@@ -275,7 +276,10 @@ class App extends Component {
     return { data, speciesData, evoData, image };
   };
 
-  findPokemon = async (searchData, source = 'manual') => {
+  shouldTrackRecentSearch = (source) =>
+    source === 'manual' || source === 'suggestion';
+
+  findPokemon = async (searchData, source = 'navigation') => {
     const rawSearch = String(searchData).trim().toLowerCase();
     const search = this.resolveCanonicalSearch(rawSearch);
     this.setState((prev) => ({
@@ -301,7 +305,9 @@ class App extends Component {
     if (this.state.cache[cacheKey]) {
       const { data, speciesData, evoData, image } = this.state.cache[cacheKey];
       globalThis.history.pushState(null, '', `?pokemon=${data.id}`);
-      this.updateRecentSearches(data.name);
+      if (this.shouldTrackRecentSearch(source)) {
+        this.updateRecentSearches(data.name);
+      }
       this.setState({
         data,
         speciesData,
@@ -319,7 +325,9 @@ class App extends Component {
       const { data, speciesData, evoData, image } =
         await this.fetchPokemonData(search);
       globalThis.history.pushState(null, '', `?pokemon=${data.id}`);
-      this.updateRecentSearches(data.name);
+      if (this.shouldTrackRecentSearch(source)) {
+        this.updateRecentSearches(data.name);
+      }
       this.setState((prev) => ({
         data,
         speciesData,

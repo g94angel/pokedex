@@ -253,7 +253,7 @@ export default class Search extends Component {
                     <button
                       type="button"
                       className="suggestion-chip favorite-chip"
-                      onClick={() => findPokemon(id)}
+                      onClick={() => findPokemon(id, 'party')}
                       disabled={isSearching}
                     >
                       <img
