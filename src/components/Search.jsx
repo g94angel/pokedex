@@ -285,7 +285,7 @@ export default class Search extends Component {
         {showRecentSearches && (
           <div className="search-suggestions" aria-label="Recent searches">
             <div className="suggestions-header">
-              <span className="suggestions-label">Recent</span>
+              <span className="suggestions-label">Recent Searches</span>
               <button
                 type="button"
                 className="clear-recent-btn"
