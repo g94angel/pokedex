@@ -119,6 +119,24 @@ describe('PokeCard behavior', () => {
     expect(props.findPokemon).toHaveBeenNthCalledWith(2, 150, 'navigation');
   });
 
+  it('disables next/previous controls while searching', () => {
+    const props = buildProps({
+      state: {
+        ...buildProps().state,
+        isSearching: true,
+      },
+    });
+    const { container } = render(<PokeCard {...props} />);
+
+    const navButtons = container.querySelectorAll('.navigation-buttons button');
+    expect(navButtons[0]).toBeDisabled();
+    expect(navButtons[1]).toBeDisabled();
+
+    fireEvent.click(navButtons[0]);
+    fireEvent.click(navButtons[1]);
+    expect(props.findPokemon).not.toHaveBeenCalled();
+  });
+
   it('sends evolution source when selecting another stage', () => {
     const props = buildProps();
     const { getByRole } = render(<PokeCard {...props} />);

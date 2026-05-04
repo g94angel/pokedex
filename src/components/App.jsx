@@ -393,8 +393,7 @@ class App extends Component {
   };
 
   render() {
-    const { data, error, errorMessage, input, loaded, isSearching } =
-      this.state;
+    const { data, error, errorMessage, input, loaded } = this.state;
     const hasPokemon = loaded && data;
 
     return (
@@ -429,7 +428,7 @@ class App extends Component {
           )}
         </div>
 
-        {!isSearching && hasPokemon ? (
+        {hasPokemon ? (
           <PokeCard
             state={this.state}
             findPokemon={this.findPokemon}

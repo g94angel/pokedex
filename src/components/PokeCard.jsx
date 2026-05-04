@@ -175,6 +175,7 @@ export default class PokeCard extends Component {
 
     const inParty = party?.includes(data.id);
     const partyFull = (party?.length ?? 0) >= 6;
+    const navDisabled = Boolean(this.props.state.isSearching);
     let partyAriaLabel = 'Add to party';
     let partyTitle = `Add to party (${party?.length ?? 0}/6)`;
     if (inParty) {
@@ -269,13 +270,13 @@ export default class PokeCard extends Component {
 
             <div className="navigation-buttons">
               <button
-                disabled={data.id <= 1}
+                disabled={navDisabled || data.id <= 1}
                 onClick={() => findPokemon(data.id - 1, 'navigation')}
               >
                 <i className="fa fa-thin fa-caret-left"></i>
               </button>
               <button
-                disabled={data.id >= 1025}
+                disabled={navDisabled || data.id >= 1025}
                 onClick={() => findPokemon(data.id + 1, 'navigation')}
               >
                 <i className="fa fa-thin fa-caret-right"></i>
