@@ -51,7 +51,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 20;
-  padding-bottom: 0.2rem;
+  padding: 1rem;
   background: linear-gradient(
     180deg,
     rgba(31, 41, 55, 0.97) 0%,
@@ -256,6 +256,13 @@ button:disabled {
   background: rgba(15, 23, 42, 0.9);
 }
 
+.party-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding-bottom: 0.1rem;
+}
+
 .suggestion-list {
   display: flex;
   flex-wrap: nowrap;
@@ -300,8 +307,9 @@ button:disabled {
 
 .party-slot {
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .party-slot:nth-child(1) .fav-sprite {
@@ -380,7 +388,6 @@ button:disabled {
 }
 
 .party-ball-btn.party-full {
-  filter: grayscale(100%);
   opacity: 0.4;
 }
 
@@ -504,6 +511,7 @@ h4 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
+  margin: 0 auto;
 }
 
 .navigation-buttons button {
@@ -734,6 +742,10 @@ h4 {
 }
 
 @media (min-width: 768px) {
+  .party-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .main-container {
     padding: 1.25rem 1.25rem 2.75rem;
   }
@@ -776,12 +788,7 @@ h4 {
 
   .card-details {
     flex: 1;
-    align-items: stretch;
-  }
-
-  .card-name,
-  .card-actions {
-    justify-content: flex-start;
+    align-items: center;
   }
 
   .card-control-bar {
@@ -799,7 +806,6 @@ h4 {
   }
 
   .card-info p {
-    text-align: left;
     font-size: 1rem;
   }
 

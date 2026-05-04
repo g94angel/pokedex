@@ -216,7 +216,7 @@ export default class Search extends Component {
                 .
               </p>
             )}
-            <div className="suggestion-list">
+            <div className="party-list">
               {party.map((id) => {
                 const name = pokemonIndex[id - 1] || `#${id}`;
                 return (

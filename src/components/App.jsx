@@ -380,18 +380,7 @@ class App extends Component {
   };
 
   render() {
-    const {
-      data,
-      error,
-      errorMessage,
-      input,
-      isSearching,
-      loaded,
-      pendingSearch,
-      pendingPartyAdd,
-      recentSearches,
-      searchSuggestions,
-    } = this.state;
+    const { data, error, errorMessage, input, loaded } = this.state;
     const hasPokemon = loaded && data;
 
     return (
@@ -406,11 +395,11 @@ class App extends Component {
             onSuggestionSelect={this.handleSearchSuggestion}
             onClearSearch={this.handleClearSearchInput}
             onClearRecentSearches={this.handleClearRecentSearches}
-            isSearching={isSearching}
-            pendingSearch={pendingSearch}
-            pendingPartyAdd={pendingPartyAdd}
-            recentSearches={recentSearches}
-            suggestions={searchSuggestions}
+            isSearching={this.state.isSearching}
+            pendingSearch={this.state.pendingSearch}
+            pendingPartyAdd={this.state.pendingPartyAdd}
+            recentSearches={this.state.recentSearches}
+            suggestions={this.state.searchSuggestions}
             formatPokemonDisplayName={this.formatPokemonDisplayName}
             party={this.state.party}
             pokemonIndex={this.state.pokemonIndex}
