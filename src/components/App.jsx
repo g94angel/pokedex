@@ -15,7 +15,8 @@ class App extends Component {
     errorMessage: '',
     loaded: false,
     cache: {},
-    favorites: JSON.parse(localStorage.getItem('pokedex-favorites') || '[]'),
+    party: JSON.parse(localStorage.getItem('pokedex-party') || '[]'),
+    pendingPartyAdd: null,
     pokemonIndex: [],
     normalizedPokemonIndex: {},
     searchSuggestions: [],
@@ -342,14 +343,36 @@ class App extends Component {
     }
   };
 
-  handleFavoriteToggle = (id) => {
+  handlePartyToggle = (id) => {
+    const { party } = this.state;
+    if (party.includes(id)) {
+      const newParty = party.filter((f) => f !== id);
+      localStorage.setItem('pokedex-party', JSON.stringify(newParty));
+      this.setState({ party: newParty });
+    } else if (party.length >= 6) {
+      this.setState({ pendingPartyAdd: id });
+    } else {
+      const newParty = [...party, id];
+      localStorage.setItem('pokedex-party', JSON.stringify(newParty));
+      this.setState({ party: newParty });
+    }
+  };
+
+  handlePartyRelease = (id) => {
     this.setState((prev) => {
-      const favs = prev.favorites.includes(id)
-        ? prev.favorites.filter((f) => f !== id)
-        : [...prev.favorites, id];
-      localStorage.setItem('pokedex-favorites', JSON.stringify(favs));
-      return { favorites: favs };
+      const released = prev.party.filter((f) => f !== id);
+      const pendingId = prev.pendingPartyAdd;
+      const finalParty =
+        pendingId && !released.includes(pendingId)
+          ? [...released, pendingId]
+          : released;
+      localStorage.setItem('pokedex-party', JSON.stringify(finalParty));
+      return { party: finalParty, pendingPartyAdd: null };
     });
+  };
+
+  handleCancelPartyAdd = () => {
+    this.setState({ pendingPartyAdd: null });
   };
 
   handleRandom = () => {
@@ -365,6 +388,7 @@ class App extends Component {
       isSearching,
       loaded,
       pendingSearch,
+      pendingPartyAdd,
       recentSearches,
       searchSuggestions,
     } = this.state;
@@ -384,9 +408,14 @@ class App extends Component {
             onClearRecentSearches={this.handleClearRecentSearches}
             isSearching={isSearching}
             pendingSearch={pendingSearch}
+            pendingPartyAdd={pendingPartyAdd}
             recentSearches={recentSearches}
             suggestions={searchSuggestions}
             formatPokemonDisplayName={this.formatPokemonDisplayName}
+            party={this.state.party}
+            pokemonIndex={this.state.pokemonIndex}
+            onPartyRelease={this.handlePartyRelease}
+            onCancelPartyAdd={this.handleCancelPartyAdd}
           />
 
           {error && (
@@ -400,7 +429,7 @@ class App extends Component {
           <PokeCard
             state={this.state}
             findPokemon={this.findPokemon}
-            onFavoriteToggle={this.handleFavoriteToggle}
+            onPartyToggle={this.handlePartyToggle}
           />
         ) : (
           <Loader />

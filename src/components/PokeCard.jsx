@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import PokeballImg from '../images/pokeball.png';
 
 const TYPE_COLORS = {
   normal: '#a8a877',
@@ -107,14 +108,17 @@ export default class PokeCard extends Component {
   };
 
   render() {
-    const { data, image, speciesData, evoData, favorites } = this.props.state;
-    const { findPokemon, onFavoriteToggle } = this.props;
+    const { data, image, speciesData, evoData, party } = this.props.state;
+    const { findPokemon, onPartyToggle } = this.props;
     const { shiny } = this.state;
 
     const { generation, region } = this.getGenerationInfo(data.id);
     const nameFormatted = this.capitalize(data.name);
     const primaryType = data.types[0].type.name;
     const typeColor = TYPE_COLORS[primaryType] || '#888';
+
+    const inParty = party?.includes(data.id);
+    const partyFull = (party?.length ?? 0) >= 6;
 
     const escapedName = data.name.replaceAll(
       /[-/\\^$*+?.()|[\]{}]/g,
@@ -131,7 +135,6 @@ export default class PokeCard extends Component {
       (g) => g.language.name === 'en',
     )?.genus;
     const hasCry = !!data?.cries?.latest;
-    const isFavorite = favorites?.includes(data.id);
 
     const height = (data.height / 10).toFixed(1);
     const weight = (data.weight / 10).toFixed(1);
@@ -182,14 +185,29 @@ export default class PokeCard extends Component {
                 ✨
               </button>
               <button
-                onClick={() => onFavoriteToggle(data.id)}
-                className={`action-button${isFavorite ? ' active' : ''}`}
-                aria-label="Toggle favorite"
+                onClick={() => onPartyToggle(data.id)}
+                className={`action-button party-ball-btn${inParty ? ' in-party' : ''}${!inParty && partyFull ? ' party-full' : ''}`}
+                aria-label={
+                  inParty
+                    ? 'Remove from party'
+                    : partyFull
+                      ? 'Party full – release one first'
+                      : 'Add to party'
+                }
                 title={
-                  isFavorite ? 'Remove from favorites' : 'Add to favorites'
+                  inParty
+                    ? 'Remove from party'
+                    : partyFull
+                      ? 'Party full!'
+                      : `Add to party (${party?.length ?? 0}/6)`
                 }
               >
-                {isFavorite ? '♥' : '♡'}
+                <img
+                  src={PokeballImg}
+                  alt=""
+                  aria-hidden="true"
+                  className="party-ball-icon"
+                />
               </button>
             </div>
 
@@ -263,5 +281,5 @@ export default class PokeCard extends Component {
 PokeCard.propTypes = {
   state: PropTypes.object.isRequired,
   findPokemon: PropTypes.func.isRequired,
-  onFavoriteToggle: PropTypes.func.isRequired,
+  onPartyToggle: PropTypes.func.isRequired,
 };

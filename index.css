@@ -285,6 +285,111 @@ button:disabled {
   color: #dbeafe;
 }
 
+.favorite-chip {
+  color: #fde68a;
+}
+
+.party-panel--releasing {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 1px #ef4444;
+}
+
+.party-panel--releasing .suggestion-chip {
+  opacity: 0.7;
+}
+
+.party-slot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.party-slot:nth-child(1) .fav-sprite {
+  animation-delay: 0s;
+}
+.party-slot:nth-child(2) .fav-sprite {
+  animation-delay: 0.17s;
+}
+.party-slot:nth-child(3) .fav-sprite {
+  animation-delay: 0.34s;
+}
+.party-slot:nth-child(4) .fav-sprite {
+  animation-delay: 0.51s;
+}
+.party-slot:nth-child(5) .fav-sprite {
+  animation-delay: 0.68s;
+}
+.party-slot:nth-child(6) .fav-sprite {
+  animation-delay: 0.85s;
+}
+
+.party-release-btn {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.4rem;
+  min-width: 0;
+  min-height: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  padding: 0;
+  border-radius: 50%;
+  background: #ef4444;
+  border-color: transparent;
+  color: #fff;
+  font-size: 0.65rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.party-full-notice {
+  font-size: 0.78rem;
+  color: #fde68a;
+  margin: 0 0 0.4rem;
+  padding: 0;
+}
+
+.fav-sprite {
+  width: 1.8rem;
+  height: 1.8rem;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+  animation: party-bob 0.5s ease-in-out infinite;
+}
+
+@keyframes party-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.party-ball-btn {
+  opacity: 1;
+  filter: grayscale(100%);
+  transition: filter 0.15s;
+}
+
+.party-ball-btn.in-party {
+  filter: none;
+}
+
+.party-ball-btn.party-full {
+  filter: grayscale(100%);
+  opacity: 0.4;
+}
+
+.party-ball-icon {
+  width: 1.4rem;
+  height: 1.4rem;
+  display: block;
+}
+
 .chip-loading-ball {
   width: 0.95rem;
   height: 0.95rem;

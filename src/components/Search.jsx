@@ -84,13 +84,19 @@ export default class Search extends Component {
       onClearRecentSearches,
       isSearching,
       pendingSearch,
+      pendingPartyAdd,
       recentSearches,
       suggestions,
       formatPokemonDisplayName,
+      party,
+      pokemonIndex,
+      onPartyRelease,
+      onCancelPartyAdd,
     } = this.props;
     const { activeSuggestionIndex, shake } = this.state;
     const showSuggestions = state.input && suggestions.length > 0;
     const showRecentSearches = !state.input && recentSearches.length > 0;
+    const showParty = !state.input && party.length > 0;
 
     return (
       <div className="search-panel">
@@ -180,6 +186,73 @@ export default class Search extends Component {
           </div>
         )}
 
+        {showParty && (
+          <div
+            className={`search-suggestions party-panel${pendingPartyAdd ? ' party-panel--releasing' : ''}`}
+            aria-label="Your party"
+          >
+            <div className="suggestions-header">
+              <span className="suggestions-label">
+                Your party ({party.length}/6)
+              </span>
+              {pendingPartyAdd && (
+                <button
+                  type="button"
+                  className="clear-recent-btn"
+                  onClick={onCancelPartyAdd}
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
+            {pendingPartyAdd && (
+              <p className="party-full-notice">
+                Party full! Release a Pokémon to add{' '}
+                <strong>
+                  {formatPokemonDisplayName(
+                    pokemonIndex[pendingPartyAdd - 1] || `#${pendingPartyAdd}`,
+                  )}
+                </strong>
+                .
+              </p>
+            )}
+            <div className="suggestion-list">
+              {party.map((id) => {
+                const name = pokemonIndex[id - 1] || `#${id}`;
+                return (
+                  <div key={id} className="party-slot">
+                    <button
+                      type="button"
+                      className="suggestion-chip favorite-chip"
+                      onClick={() => findPokemon(id)}
+                      disabled={isSearching}
+                    >
+                      <img
+                        className="fav-sprite"
+                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
+                        alt=""
+                        aria-hidden="true"
+                      />
+                      {formatPokemonDisplayName(name)}
+                    </button>
+                    {pendingPartyAdd && (
+                      <button
+                        type="button"
+                        className="party-release-btn"
+                        onClick={() => onPartyRelease(id)}
+                        aria-label={`Release ${formatPokemonDisplayName(name)}`}
+                        title={`Release ${formatPokemonDisplayName(name)}`}
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {showRecentSearches && (
           <div className="search-suggestions" aria-label="Recent searches">
             <div className="suggestions-header">
@@ -226,4 +299,9 @@ Search.propTypes = {
   recentSearches: PropTypes.arrayOf(PropTypes.string).isRequired,
   suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
   formatPokemonDisplayName: PropTypes.func.isRequired,
+  party: PropTypes.arrayOf(PropTypes.number).isRequired,
+  pokemonIndex: PropTypes.arrayOf(PropTypes.string).isRequired,
+  pendingPartyAdd: PropTypes.number,
+  onPartyRelease: PropTypes.func.isRequired,
+  onCancelPartyAdd: PropTypes.func.isRequired,
 };
