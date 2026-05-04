@@ -1,3 +1,7 @@
+html {
+  background-color: #1f2937;
+}
+
 :root {
   --page-bg: #1f2937;
   --panel-bg: rgba(17, 24, 39, 0.88);
@@ -445,9 +449,6 @@ button:disabled {
 .card-container {
   width: 100%;
   max-width: 26rem;
-  flex: 1;
-  min-height: 0;
-  max-height: 100%;
   margin: 0;
   padding: 0.72rem;
   display: flex;
@@ -486,7 +487,7 @@ button:disabled {
   align-items: center;
   gap: 0.45rem;
   min-height: 0;
-  overflow: auto;
+  overflow: visible;
 }
 
 .card-name {
