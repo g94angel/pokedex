@@ -241,6 +241,12 @@ button:disabled {
   margin-bottom: 0;
 }
 
+.suggestions-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .clear-recent-btn {
   min-width: 0;
   min-height: 0;

@@ -375,6 +375,11 @@ class App extends Component {
     this.setState({ pendingPartyAdd: null });
   };
 
+  handleClearParty = () => {
+    localStorage.setItem('pokedex-party', JSON.stringify([]));
+    this.setState({ party: [], pendingPartyAdd: null });
+  };
+
   handleRandom = () => {
     this.findPokemon(Math.floor(Math.random() * 1025) + 1, 'random');
   };
@@ -405,6 +410,7 @@ class App extends Component {
             pokemonIndex={this.state.pokemonIndex}
             onPartyRelease={this.handlePartyRelease}
             onCancelPartyAdd={this.handleCancelPartyAdd}
+            onClearParty={this.handleClearParty}
           />
 
           {error && (

@@ -6,6 +6,8 @@ import PokeballImg from '../images/pokeball.png';
 export default class Search extends Component {
   inputRef = React.createRef();
 
+  partyPanelRef = React.createRef();
+
   state = {
     shake: false,
     activeSuggestionIndex: -1,
@@ -17,6 +19,21 @@ export default class Search extends Component {
       prevProps.suggestions !== this.props.suggestions
     ) {
       this.setState({ activeSuggestionIndex: -1 });
+    }
+
+    if (!prevProps.pendingPartyAdd && this.props.pendingPartyAdd) {
+      const scrollToParty = () => {
+        this.partyPanelRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
+      };
+
+      if (globalThis.requestAnimationFrame) {
+        globalThis.requestAnimationFrame(scrollToParty);
+      } else {
+        scrollToParty();
+      }
     }
   }
 
@@ -92,11 +109,12 @@ export default class Search extends Component {
       pokemonIndex,
       onPartyRelease,
       onCancelPartyAdd,
+      onClearParty,
     } = this.props;
     const { activeSuggestionIndex, shake } = this.state;
     const showSuggestions = state.input && suggestions.length > 0;
     const showRecentSearches = !state.input && recentSearches.length > 0;
-    const showParty = !state.input && party.length > 0;
+    const showParty = party.length > 0 && (!state.input || pendingPartyAdd);
 
     return (
       <div className="search-panel">
@@ -188,6 +206,7 @@ export default class Search extends Component {
 
         {showParty && (
           <div
+            ref={this.partyPanelRef}
             className={`search-suggestions party-panel${pendingPartyAdd ? ' party-panel--releasing' : ''}`}
             aria-label="Your party"
           >
@@ -195,15 +214,25 @@ export default class Search extends Component {
               <span className="suggestions-label">
                 Your party ({party.length}/6)
               </span>
-              {pendingPartyAdd && (
+              <div className="suggestions-actions">
                 <button
                   type="button"
                   className="clear-recent-btn"
-                  onClick={onCancelPartyAdd}
+                  onClick={onClearParty}
+                  disabled={isSearching}
                 >
-                  Cancel
+                  Clear
                 </button>
-              )}
+                {pendingPartyAdd && (
+                  <button
+                    type="button"
+                    className="clear-recent-btn"
+                    onClick={onCancelPartyAdd}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
             </div>
             {pendingPartyAdd && (
               <p className="party-full-notice">
@@ -212,7 +241,7 @@ export default class Search extends Component {
                   {formatPokemonDisplayName(
                     pokemonIndex[pendingPartyAdd - 1] || `#${pendingPartyAdd}`,
                   )}
-                </strong>
+                </strong>{' '}
                 .
               </p>
             )}
@@ -304,4 +333,5 @@ Search.propTypes = {
   pendingPartyAdd: PropTypes.number,
   onPartyRelease: PropTypes.func.isRequired,
   onCancelPartyAdd: PropTypes.func.isRequired,
+  onClearParty: PropTypes.func.isRequired,
 };
