@@ -24,7 +24,7 @@ const TYPE_COLORS = {
 };
 
 export default class PokeCard extends Component {
-  state = { shiny: false, cryUnavailable: false };
+  state = { shiny: false, cryUnavailable: false, navDirection: null };
 
   preloadedCry = null;
 
@@ -36,8 +36,15 @@ export default class PokeCard extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.state.data?.id !== this.props.state.data?.id) {
-      this.setState({ shiny: false, cryUnavailable: false });
+      this.setState({
+        shiny: false,
+        cryUnavailable: false,
+        navDirection: null,
+      });
       this.preloadCry();
+    }
+    if (prevProps.state.isSearching && !this.props.state.isSearching) {
+      this.setState({ navDirection: null });
     }
   }
 
@@ -271,15 +278,37 @@ export default class PokeCard extends Component {
             <div className="navigation-buttons">
               <button
                 disabled={navDisabled || data.id <= 1}
-                onClick={() => findPokemon(data.id - 1, 'navigation')}
+                onClick={() => {
+                  this.setState({ navDirection: 'prev' });
+                  findPokemon(data.id - 1, 'navigation');
+                }}
               >
-                <i className="fa fa-thin fa-caret-left"></i>
+                {navDisabled && this.state.navDirection === 'prev' ? (
+                  <span
+                    className="inline-spinner"
+                    aria-label="Loading"
+                    role="status"
+                  />
+                ) : (
+                  <i className="fa fa-thin fa-caret-left"></i>
+                )}
               </button>
               <button
                 disabled={navDisabled || data.id >= 1025}
-                onClick={() => findPokemon(data.id + 1, 'navigation')}
+                onClick={() => {
+                  this.setState({ navDirection: 'next' });
+                  findPokemon(data.id + 1, 'navigation');
+                }}
               >
-                <i className="fa fa-thin fa-caret-right"></i>
+                {navDisabled && this.state.navDirection === 'next' ? (
+                  <span
+                    className="inline-spinner"
+                    aria-label="Loading"
+                    role="status"
+                  />
+                ) : (
+                  <i className="fa fa-thin fa-caret-right"></i>
+                )}
               </button>
             </div>
 

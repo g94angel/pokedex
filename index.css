@@ -491,6 +491,23 @@ button:disabled {
   width: 100%;
 }
 
+@keyframes poke-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.inline-spinner {
+  display: block;
+  width: 1.2em;
+  height: 1.2em;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--type-color, #888);
+  border-radius: 50%;
+  animation: poke-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
 h4 {
   margin: 0;
   font-size: 1.2rem;
@@ -551,6 +568,9 @@ h4 {
   width: 100%;
   margin: 0;
   padding: 0.55rem 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card-info {

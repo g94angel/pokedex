@@ -137,6 +137,65 @@ describe('PokeCard behavior', () => {
     expect(props.findPokemon).not.toHaveBeenCalled();
   });
 
+  it('shows spinner in next button and arrow in prev after clicking next', () => {
+    const props = buildProps();
+    const { container, rerender } = render(<PokeCard {...props} />);
+
+    const navButtons = container.querySelectorAll('.navigation-buttons button');
+    fireEvent.click(navButtons[1]);
+
+    const searchingProps = buildProps({
+      state: { ...buildProps().state, isSearching: true },
+    });
+    rerender(<PokeCard {...searchingProps} />);
+
+    expect(navButtons[1].querySelector('.inline-spinner')).not.toBeNull();
+    expect(navButtons[0].querySelector('.inline-spinner')).toBeNull();
+  });
+
+  it('shows spinner in prev button after clicking prev', () => {
+    const props = buildProps({
+      state: {
+        ...buildProps().state,
+        data: { ...buildProps().state.data, id: 5 },
+      },
+    });
+    const { container, rerender } = render(<PokeCard {...props} />);
+
+    const navButtons = container.querySelectorAll('.navigation-buttons button');
+    fireEvent.click(navButtons[0]);
+
+    const searchingProps = buildProps({
+      state: {
+        ...buildProps().state,
+        data: { ...buildProps().state.data, id: 5 },
+        isSearching: true,
+      },
+    });
+    rerender(<PokeCard {...searchingProps} />);
+
+    expect(navButtons[0].querySelector('.inline-spinner')).not.toBeNull();
+    expect(navButtons[1].querySelector('.inline-spinner')).toBeNull();
+  });
+
+  it('clears navDirection when isSearching transitions from true to false', () => {
+    const props = buildProps();
+    const { container, rerender } = render(<PokeCard {...props} />);
+
+    const navButtons = container.querySelectorAll('.navigation-buttons button');
+    fireEvent.click(navButtons[1]);
+
+    const searchingProps = buildProps({
+      state: { ...buildProps().state, isSearching: true },
+    });
+    rerender(<PokeCard {...searchingProps} />);
+    expect(navButtons[1].querySelector('.inline-spinner')).not.toBeNull();
+
+    rerender(<PokeCard {...props} />);
+    expect(navButtons[1].querySelector('.inline-spinner')).toBeNull();
+    expect(navButtons[1].querySelector('.fa-caret-right')).not.toBeNull();
+  });
+
   it('sends evolution source when selecting another stage', () => {
     const props = buildProps();
     const { getByRole } = render(<PokeCard {...props} />);
