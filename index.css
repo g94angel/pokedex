@@ -53,17 +53,8 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.45rem;
-  position: sticky;
-  top: 0;
-  z-index: 20;
+  position: static;
   padding: 1rem 0;
-  background: linear-gradient(
-    180deg,
-    rgba(31, 41, 55, 0.97) 0%,
-    rgba(31, 41, 55, 0.88) 78%,
-    rgba(31, 41, 55, 0) 100%
-  );
-  backdrop-filter: blur(10px);
 }
 
 .logo {
@@ -521,9 +512,7 @@ h4 {
 
 .card-control-bar {
   width: 100%;
-  position: sticky;
-  bottom: max(0.5rem, env(safe-area-inset-bottom));
-  z-index: 10;
+  position: static;
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
