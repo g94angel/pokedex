@@ -335,6 +335,7 @@ button:disabled {
   min-width: 0;
   align-items: center;
   justify-content: center;
+  padding-block: 0.18rem;
 }
 
 .party-slot:nth-child(1) .fav-sprite {
@@ -413,16 +414,19 @@ button:disabled {
 
 .party-ball-btn {
   opacity: 1;
-  filter: grayscale(100%);
-  transition: filter 0.15s;
+  filter: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .party-ball-btn.in-party {
-  filter: none;
+  border-color: #ef4444;
+  box-shadow: 0 0 0.51px #ef4444;
 }
 
 .party-ball-btn.party-full {
-  opacity: 0.4;
+  opacity: 1;
 }
 
 .party-ball-icon {
@@ -638,11 +642,20 @@ h4 {
 
 .loader-container {
   width: 100%;
-  max-width: 18rem;
-  min-height: 14rem;
+  max-width: 26rem;
+  min-height: 23rem;
+  margin: 0;
+  padding: 0.9rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.75rem;
+  border: 2px solid var(--panel-border);
+  border-radius: 1rem;
+  background: var(--panel-bg);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(8px);
 }
 
 .loader {
@@ -650,6 +663,13 @@ h4 {
   height: auto;
   border-radius: 50%;
   animation: spin 2s infinite linear;
+}
+
+.loader-label {
+  margin: 0;
+  color: #d1d5db;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
 }
 
 @keyframes spin {
@@ -722,6 +742,12 @@ h4 {
     max-height: none;
     padding: 1.15rem;
     gap: 1rem;
+  }
+
+  .loader-container {
+    max-width: 26rem;
+    min-height: 24.5rem;
+    padding: 1.15rem;
   }
 
   .card-info p {
@@ -806,6 +832,12 @@ h4 {
     gap: 1.5rem;
   }
 
+  .loader-container {
+    max-width: 46rem;
+    min-height: 28rem;
+    padding: 1.4rem;
+  }
+
   .card-image-container {
     width: min(42%, 18rem);
     flex: 0 0 min(42%, 18rem);
@@ -878,6 +910,12 @@ h4 {
     gap: 2rem;
   }
 
+  .loader-container {
+    max-width: 56rem;
+    min-height: 30rem;
+    padding: 1.6rem;
+  }
+
   .card-image-container {
     flex-basis: 20rem;
   }
@@ -909,6 +947,10 @@ h4 {
   }
 
   .card-container {
+    max-width: 62rem;
+  }
+
+  .loader-container {
     max-width: 62rem;
   }
 

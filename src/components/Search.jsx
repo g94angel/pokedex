@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Pokeball from './Pokeball';
-import PokeballImg from '../images/pokeball.png';
 
 export default class Search extends Component {
   inputRef = React.createRef();
@@ -158,21 +157,6 @@ export default class Search extends Component {
           </button>
         </div>
 
-        {isSearching && (
-          <div
-            className="search-loading-indicator"
-            role="status"
-            aria-live="polite"
-          >
-            <img
-              className="search-loading-ball"
-              src={PokeballImg}
-              alt="Loading"
-            />
-            <span>Loading Pokemon...</span>
-          </div>
-        )}
-
         {showSuggestions && (
           <div className="search-suggestions" aria-label="Search suggestions">
             <span className="suggestions-label">Did you mean</span>
@@ -229,8 +213,8 @@ export default class Search extends Component {
                   {formatPokemonDisplayName(
                     pokemonIndex[pendingPartyAdd - 1] || `#${pendingPartyAdd}`,
                   )}
+                  .
                 </strong>
-                {'.'}
               </p>
             )}
             <div className="party-list">

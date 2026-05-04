@@ -393,7 +393,8 @@ class App extends Component {
   };
 
   render() {
-    const { data, error, errorMessage, input, loaded } = this.state;
+    const { data, error, errorMessage, input, loaded, isSearching } =
+      this.state;
     const hasPokemon = loaded && data;
 
     return (
@@ -428,14 +429,14 @@ class App extends Component {
           )}
         </div>
 
-        {hasPokemon ? (
+        {!isSearching && hasPokemon ? (
           <PokeCard
             state={this.state}
             findPokemon={this.findPokemon}
             onPartyToggle={this.handlePartyToggle}
           />
         ) : (
-          <Loader />
+          <Loader message="Catching Pokemon..." />
         )}
       </div>
     );
