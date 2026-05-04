@@ -149,7 +149,7 @@ describe('PokeCard behavior', () => {
     expect(pauseMock).toHaveBeenCalledTimes(1);
   });
 
-  it('logs cry playback errors without throwing', async () => {
+  it('shows a notice and hides cry playback after failure', async () => {
     const error = new Error('blocked');
     playMock = vi.fn().mockRejectedValue(error);
     const AudioMock = vi.fn(function AudioMock() {
@@ -161,7 +161,6 @@ describe('PokeCard behavior', () => {
       };
     });
     vi.stubGlobal('Audio', AudioMock);
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const props = buildProps({
       state: {
@@ -180,13 +179,12 @@ describe('PokeCard behavior', () => {
 
     fireEvent.click(getByRole('button', { name: /play battle cry/i }));
 
-    await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalled();
-    });
     expect(
       await screen.findByText(/cry unavailable on this device/i),
     ).toBeInTheDocument();
-    consoleSpy.mockRestore();
+    expect(
+      screen.queryByRole('button', { name: /play battle cry/i }),
+    ).not.toBeInTheDocument();
   });
 
   it('falls back to alternate cry source when first source fails', async () => {
@@ -238,15 +236,12 @@ describe('PokeCard behavior', () => {
     expect(secondAudio.play).toHaveBeenCalled();
   });
 
-  it('clears cry warning after a later successful playback', async () => {
+  it('re-enables cry playback when pokemon changes', async () => {
     const firstAudio = {
       src: 'https://example.com/cry.ogg',
       pause: vi.fn(),
       load: vi.fn(),
-      play: vi
-        .fn()
-        .mockRejectedValueOnce(new Error('blocked'))
-        .mockResolvedValueOnce(),
+      play: vi.fn().mockRejectedValueOnce(new Error('blocked')),
       currentTime: 0,
     };
     const AudioMock = vi.fn(function AudioCtor() {
@@ -264,19 +259,43 @@ describe('PokeCard behavior', () => {
         },
       },
     });
-    const { getByRole } = render(<PokeCard {...props} />);
+    const { getByRole, rerender } = render(<PokeCard {...props} />);
 
     fireEvent.click(getByRole('button', { name: /play battle cry/i }));
     expect(
       await screen.findByText(/cry unavailable on this device/i),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /play battle cry/i }),
+    ).not.toBeInTheDocument();
 
-    fireEvent.click(getByRole('button', { name: /play battle cry/i }));
+    rerender(
+      <PokeCard
+        {...buildProps({
+          state: {
+            ...buildProps().state,
+            data: {
+              ...buildProps().state.data,
+              id: 150,
+              name: 'dragonite',
+              cries: {
+                latest: 'https://example.com/dragonite.mp3',
+                legacy: null,
+              },
+            },
+          },
+        })}
+      />,
+    );
+
     await waitFor(() => {
       expect(
         screen.queryByText(/cry unavailable on this device/i),
       ).not.toBeInTheDocument();
     });
+    expect(
+      getByRole('button', { name: /play battle cry/i }),
+    ).toBeInTheDocument();
   });
 
   it('resets shiny state when pokemon id changes', () => {

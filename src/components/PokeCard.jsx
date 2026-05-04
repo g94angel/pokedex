@@ -24,7 +24,7 @@ const TYPE_COLORS = {
 };
 
 export default class PokeCard extends Component {
-  state = { shiny: false, cryError: false };
+  state = { shiny: false, cryUnavailable: false };
 
   preloadedCry = null;
 
@@ -36,7 +36,7 @@ export default class PokeCard extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.state.data?.id !== this.props.state.data?.id) {
-      this.setState({ shiny: false, cryError: false });
+      this.setState({ shiny: false, cryUnavailable: false });
       this.preloadCry();
     }
   }
@@ -51,6 +51,10 @@ export default class PokeCard extends Component {
   preloadCry = () => {
     const { data } = this.props.state;
     this.crySources = this.getCrySources(data);
+    if (typeof Audio !== 'function') {
+      this.preloadedCry = null;
+      return;
+    }
     const preloadSource = this.getPreferredCrySource(this.crySources);
     if (!preloadSource) {
       this.preloadedCry = null;
@@ -85,7 +89,7 @@ export default class PokeCard extends Component {
   };
 
   playCry = async () => {
-    if (!this.crySources.length) return;
+    if (!this.crySources.length || this.state.cryUnavailable) return;
 
     const attemptedSources = [
       this.preloadedCry?.src || null,
@@ -103,8 +107,8 @@ export default class PokeCard extends Component {
         audio.currentTime = 0;
         await audio.play();
         this.preloadedCry = audio;
-        if (this.state.cryError) {
-          this.setState({ cryError: false });
+        if (this.state.cryUnavailable) {
+          this.setState({ cryUnavailable: false });
         }
         return;
       } catch (error) {
@@ -113,8 +117,7 @@ export default class PokeCard extends Component {
     }
 
     if (lastError) {
-      this.setState({ cryError: true });
-      console.error('Could not play cry:', lastError);
+      this.setState({ cryUnavailable: true });
     }
   };
 
@@ -163,7 +166,7 @@ export default class PokeCard extends Component {
   render() {
     const { data, image, speciesData, evoData, party } = this.props.state;
     const { findPokemon, onPartyToggle } = this.props;
-    const { shiny, cryError } = this.state;
+    const { shiny, cryUnavailable } = this.state;
 
     const { generation, region } = this.getGenerationInfo(data.id);
     const nameFormatted = this.capitalize(data.name);
@@ -197,6 +200,8 @@ export default class PokeCard extends Component {
       (g) => g.language.name === 'en',
     )?.genus;
     const hasCry = this.getCrySources(data).length > 0;
+    const showCryButton =
+      hasCry && typeof Audio === 'function' && !cryUnavailable;
 
     const height = (data.height / 10).toFixed(1);
     const weight = (data.weight / 10).toFixed(1);
@@ -228,15 +233,16 @@ export default class PokeCard extends Component {
 
           <div className="card-control-bar">
             <div className="card-actions">
-              <button
-                onClick={this.playCry}
-                disabled={!hasCry}
-                className="action-button"
-                aria-label="Play battle cry"
-                title="Play cry"
-              >
-                <i className="fa fa-play-circle"></i>
-              </button>
+              {showCryButton && (
+                <button
+                  onClick={this.playCry}
+                  className="action-button"
+                  aria-label="Play battle cry"
+                  title="Play cry"
+                >
+                  <i className="fa fa-play-circle"></i>
+                </button>
+              )}
               <button
                 onClick={this.toggleShiny}
                 className={`action-button${shiny ? ' active' : ''}`}
@@ -276,7 +282,7 @@ export default class PokeCard extends Component {
               </button>
             </div>
 
-            {cryError && (
+            {cryUnavailable && (
               <p className="cry-notice" role="status" aria-live="polite">
                 Cry unavailable on this device.
               </p>
